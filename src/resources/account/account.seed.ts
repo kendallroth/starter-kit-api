@@ -13,6 +13,7 @@ const seedAccounts = (): Map<string, AccountEntity> => {
       id: seedAccountIds.user,
       name: "Dev User",
       email: "dev@example.com",
+      password: "Passw0rd!",
       createdAt: dayjs().subtract(5, "day").toISOString(),
       verifiedAt: dayjs().subtract(5, "day").toISOString(),
     }),
@@ -20,6 +21,7 @@ const seedAccounts = (): Map<string, AccountEntity> => {
       id: seedAccountIds.other,
       name: "Other User",
       email: "other@example.com",
+      password: "password",
       createdAt: dayjs().subtract(3, "day").toISOString(),
     }),
   ];

@@ -9,7 +9,7 @@ import { AuthenticationResponse } from "./auth.types";
 class AuthService {
   /** Authenticate account credentials */
   public authenticate = (body: AccountLoginBody): AuthenticationResponse => {
-    const account = AccountService.getAccountByEmail(body.email);
+    const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
       throw new UnauthorizedError("Invalid credentials");
     }

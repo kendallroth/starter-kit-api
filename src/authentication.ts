@@ -3,12 +3,11 @@ import jwt from "jsonwebtoken";
 
 import { UnauthorizedError } from "#common/errors";
 import { appConfig } from "#config";
+import { database } from "#database";
 import { AccountEntity } from "#resources/account/account.entity";
-import { AccountService } from "#resources/account/account.service";
-import { AccountResponse } from "#resources/account/account.types";
 
 export interface AuthenticatedRequest extends express.Request {
-  user: AccountResponse;
+  user: AccountEntity;
 }
 
 export const expressAuthentication = async (
@@ -37,7 +36,8 @@ export const expressAuthentication = async (
 
         // @ts-expect-error
         const accountId = decoded.accountId as string;
-        const account = AccountService.getAccount(accountId);
+        // Directly access accounts table to get password (filtered out in other locations)
+        const account = database.data?.accounts.get(accountId);
         if (!account) {
           return reject(unauthorizedError);
         }

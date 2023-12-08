@@ -17,63 +17,10 @@
 				"description": "Stringified UUIDv4",
 				"pattern": "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}"
 			},
-			"AccountEntity": {
-				"properties": {
-					"id": {
-						"$ref": "#/components/schemas/UUID"
-					},
-					"createdAt": {
-						"$ref": "#/components/schemas/Timestamp",
-						"description": "When entity was created (ISO timestamp)"
-					},
-					"updatedAt": {
-						"$ref": "#/components/schemas/Timestamp",
-						"description": "When entity was last updated (ISO timestamp)"
-					},
-					"email": {
-						"type": "string",
-						"description": "Account email",
-						"format": "email"
-					},
-					"name": {
-						"type": "string"
-					},
-					"verifiedAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true,
-						"description": "When account was verified"
-					}
-				},
-				"required": [
-					"id",
-					"createdAt",
-					"email",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UnauthorizedErrorResponse": {
-				"properties": {
-					"message": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"AccountResponse": {
 				"properties": {
 					"email": {
 						"type": "string",
-						"description": "Account email",
 						"format": "email"
 					},
 					"name": {
@@ -109,6 +56,18 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UnauthorizedErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"AuthenticationResponse": {
 				"properties": {
 					"account": {
@@ -129,10 +88,14 @@
 				"properties": {
 					"email": {
 						"type": "string"
+					},
+					"password": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"email"
+					"email",
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -366,14 +329,14 @@
 	"paths": {
 		"/account/current": {
 			"get": {
-				"operationId": "GetTodos",
+				"operationId": "GetCurrent",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/AccountEntity"
+									"$ref": "#/components/schemas/AccountResponse"
 								}
 							}
 						}

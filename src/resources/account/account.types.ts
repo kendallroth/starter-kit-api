@@ -4,4 +4,5 @@ export interface AccountResponse extends Omit<AccountEntity, "password"> {}
 
 export interface AccountLoginBody {
   email: string;
+  password: string;
 }

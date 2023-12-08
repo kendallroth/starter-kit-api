@@ -15,3 +15,15 @@ export const pick = <T extends object, K extends keyof T>(object: T, keys: K[]):
     {} as Pick<T, K>,
   );
 };
+
+/** Construct a new object with specified keys **omitted** from input object */
+export const omit = <T extends object, K extends keyof T>(object: T, keys: K[]): Omit<T, K> => {
+  return keys.reduce(
+    (obj, key) => {
+      delete obj[key];
+      return obj;
+    },
+    { ...object }
+  );
+};
+
