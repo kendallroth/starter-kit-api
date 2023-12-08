@@ -308,6 +308,50 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"TodoStatsResponse": {
+				"properties": {
+					"completed": {
+						"type": "number",
+						"format": "double",
+						"description": "Completed todos"
+					},
+					"starred": {
+						"type": "number",
+						"format": "double",
+						"description": "Starred todos"
+					},
+					"total": {
+						"type": "number",
+						"format": "double",
+						"description": "Total todos"
+					},
+					"overdue": {
+						"type": "number",
+						"format": "double",
+						"description": "Overdue todos (based on `dueDate`)"
+					},
+					"upcoming": {
+						"type": "number",
+						"format": "double",
+						"description": "Upcoming todos (based on `dueDate`)"
+					},
+					"uncompleted": {
+						"type": "number",
+						"format": "double",
+						"description": "Uncompleted todos"
+					}
+				},
+				"required": [
+					"completed",
+					"starred",
+					"total",
+					"overdue",
+					"upcoming",
+					"uncompleted"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"NotFoundErrorResponse": {
 				"properties": {
 					"message": {
@@ -693,6 +737,56 @@
 						}
 					}
 				}
+			}
+		},
+		"/todo/stats": {
+			"get": {
+				"operationId": "GetTodoStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoStatsResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View platform todo stats",
+				"tags": [
+					"Todo"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/todo/stats/account": {
+			"get": {
+				"operationId": "GetAccountTodoStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoStatsResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View account todo stats",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
 			}
 		},
 		"/todo/{id}": {

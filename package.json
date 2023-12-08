@@ -7,6 +7,8 @@
     "prebuild": "rimraf ./build/*",
     "build": "tsoa spec-and-routes && tsc",
     "dev": "concurrently 'nodemon' 'nodemon -x tsoa spec-and-routes'",
+    "dev:tsoa": "nodemon -x tsoa spec-and-routes",
+    "dev:server": "nodemon",
     "code:check": "biome check src/",
     "code:check:fix": "biome check src/ --apply",
     "code:format": "biome format src/ --write",

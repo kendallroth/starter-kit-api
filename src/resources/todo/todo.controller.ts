@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NoSecurity,
   Patch,
   Path,
   Post,
@@ -28,7 +29,7 @@ import { PaginatedResult, PaginationQuery } from "#common/types";
 import { HttpStatus } from "#common/utilities";
 import { TodoEntity } from "./todo.entity";
 import { TodoService } from "./todo.service";
-import { TodoCreateBody, TodoUpdateBody } from "./todo.types";
+import { TodoCreateBody, TodoStatsResponse, TodoUpdateBody } from "./todo.types";
 
 @Route("todo")
 @Security("jwt")
@@ -44,6 +45,29 @@ export class TodoController extends Controller {
     @Queries() query: PaginationQuery
   ): Promise<PaginatedResult<TodoEntity>> {
     return TodoService.getTodos(request.user, query);
+  }
+
+  /**
+   * @summary View platform todo stats
+   */
+  // NOTE: Must be registered BEFORE ":id" route!
+  @Get("stats")
+  @NoSecurity()
+  public async getTodoStats(
+    @Request() request: AuthenticatedRequest,
+  ): Promise<TodoStatsResponse> {
+    return TodoService.getTodoStats(request.user);
+  }
+
+  /**
+   * @summary View account todo stats
+   */
+  // NOTE: Must be registered BEFORE ":id" route!
+  @Get("stats/account")
+  public async getAccountTodoStats(
+    @Request() request: AuthenticatedRequest,
+  ): Promise<TodoStatsResponse> {
+    return TodoService.getTodoStats(request.user);
   }
 
   /**

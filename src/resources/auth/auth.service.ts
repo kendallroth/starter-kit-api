@@ -13,7 +13,7 @@ import { AuthenticationResponse, TokenRefreshBody } from "./auth.types";
 
 class AuthService {
   /** Authenticate account credentials */
-  public authenticate = (body: AccountLoginBody): AuthenticationResponse => {
+  public authenticate(body: AccountLoginBody): AuthenticationResponse {
     const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
       throw new UnauthorizedError("Invalid credentials");
@@ -27,9 +27,9 @@ class AuthService {
       accessToken,
       refreshToken: refreshToken.token,
     };
-  };
+  }
 
-  private generateAccessToken = (account: AccountResponse): string => {
+  private generateAccessToken(account: AccountResponse): string {
     return jwt.sign(
       {
         accountId: account.id,
@@ -38,27 +38,27 @@ class AuthService {
       appConfig.auth.jwtSecret,
       { expiresIn: appConfig.auth.jwtExpiry },
     );
-  };
+  }
 
   /** Clean up any non-valid or expired refresh tokens */
-  private cleanupRefreshTokens = () => {
+  private cleanupRefreshTokens() {
     const refreshTokens = mapToArray(database.data!.refreshTokens);
     for (const token of refreshTokens) {
       if (dayjs(token.expiresAt).isBefore()) {
         this.deleteRefreshToken(token.id);
       }
     }
-  };
+  }
 
-  private getRefreshToken = (token: string): RefreshTokenEntity => {
+  private getRefreshToken(token: string): RefreshTokenEntity {
     const refreshToken = mapToArray(database.data!.refreshTokens).find((t) => t.token === token);
     if (!refreshToken) {
       throw new ClientError("Invalid refresh token");
     }
     return refreshToken;
-  };
+  }
 
-  private createRefreshToken = (account: AccountResponse): RefreshTokenEntity => {
+  private createRefreshToken(account: AccountResponse): RefreshTokenEntity {
     const tokenString = `${uuid()}${uuid()}`.replace(/-/g, "");
 
     // Ensure invalid refresh tokens are cleaned up
@@ -74,23 +74,23 @@ class AuthService {
     database.write();
 
     return refreshToken;
-  };
+  }
 
-  private deleteRefreshToken = (id: string) => {
+  private deleteRefreshToken(id: string) {
     const refreshTokensRef = database.data!.refreshTokens;
     refreshTokensRef.delete(id);
     database.write();
-  };
+  }
 
   /** Exchange refresh token for new access token */
-  public refreshAuthToken = (body: TokenRefreshBody): AuthenticationResponse => {
+  public refreshAuthToken(body: TokenRefreshBody): AuthenticationResponse {
     const refreshToken = this.getRefreshToken(body.refreshToken);
     if (!refreshToken) {
       throw new UnauthorizedError("Invalid refresh token");
     }
 
     if (dayjs(refreshToken.expiresAt).isBefore()) {
-      throw new UnauthorizedError("Refresh token expired")
+      throw new UnauthorizedError("Refresh token expired");
     }
 
     const account = AccountService.getAccountById(refreshToken.accountId);
@@ -110,7 +110,7 @@ class AuthService {
       accessToken,
       refreshToken: newRefreshToken.token,
     };
-  };
+  }
 }
 
 const singleton = new AuthService();
