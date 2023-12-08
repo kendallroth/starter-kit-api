@@ -91,6 +91,48 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ValidationErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"fields": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"fields"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountCreateBody": {
+				"properties": {
+					"password": {
+						"type": "string",
+						"format": "password"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"email",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"AccountLoginBody": {
 				"properties": {
 					"email": {
@@ -254,26 +296,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ValidationErrorResponse": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"fields": {
-						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
-						"type": "object"
-					}
-				},
-				"required": [
-					"message",
-					"fields"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"TodoUpdateBody": {
 				"properties": {
 					"text": {
@@ -393,6 +415,49 @@
 					}
 				],
 				"parameters": []
+			}
+		},
+		"/account": {
+			"post": {
+				"operationId": "CreateTodo",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Create an account",
+				"tags": [
+					"Account"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountCreateBody"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/auth/login": {

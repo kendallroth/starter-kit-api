@@ -6,3 +6,5 @@ export interface AccountLoginBody {
   email: string;
   password: string;
 }
+
+export interface AccountCreateBody extends Pick<AccountEntity, "email" | "name" | "password"> {}

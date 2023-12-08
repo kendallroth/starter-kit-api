@@ -1,8 +1,10 @@
-import { NotFoundError } from "#common/errors";
+import { ClientError, NotFoundError } from "#common/errors";
 import { mapToArray, omit } from "#common/utilities";
 import { database } from "#database";
-import { AccountEntity } from "#resources/account/account.entity";
-import { AccountResponse } from "./account.types";
+import { AccountEntity, stubAccount } from "#resources/account/account.entity";
+import { AuthService } from "#resources/auth/auth.service";
+import { AuthenticationResponse } from "#resources/auth/auth.types";
+import { AccountCreateBody, AccountResponse } from "./account.types";
 
 /** Scrub dangerous information from account */
 const scrubAccount = (entity: AccountEntity): AccountResponse => omit(entity, ["password"]);
@@ -34,13 +36,31 @@ class AccountService {
    *
    * @throws Error if account does not exist
    */
-  public getAccount(idOrEmail: string): AccountResponse {
+  public getAccount = (idOrEmail: string): AccountResponse => {
     const account = this.getAccountByIdOrEmail(idOrEmail);
     if (!account) {
       throw new NotFoundError();
     }
 
     return account;
+  }
+
+  /**
+   * Creates an account
+   *
+   * @throws Error if account already exists with email
+   */
+  public createAccount = (body: AccountCreateBody): AuthenticationResponse => {
+    const existingAccount = this.getAccountByEmail(body.email);
+    if (existingAccount) {
+      throw new ClientError("Account already exists");
+    }
+
+    const account = stubAccount({
+      ...body,
+    });
+
+    return AuthService.authenticate(account);
   }
 }
 
