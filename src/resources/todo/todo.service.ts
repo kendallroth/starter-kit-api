@@ -1,17 +1,22 @@
+import { sort } from "fast-sort";
 import { NotFoundError } from "#common/errors";
-import { PaginatedResult } from "#common/types";
-import { mapToArray, paginate } from "#common/utilities";
+import { FilterOperators, PaginatedResult } from "#common/types";
+import { getSortList, mapToArray, paginate } from "#common/utilities";
 import { database } from "#database";
 import { AccountEntity } from "#resources/account/account.entity";
 import { TodoEntity, stubTodo } from "./todo.entity";
 import { TodoCreateBody, TodoUpdateBody } from "./todo.types";
 
 class TodoService {
-  public getTodos(account: AccountEntity): PaginatedResult<TodoEntity> {
+  public getTodos(account: AccountEntity, options?: FilterOperators): PaginatedResult<TodoEntity> {
     const todosRef = database.data!.todos;
     const todos = mapToArray(todosRef).filter((t) => t.accountId === account.id);
 
-    const paginatedTodos = paginate(todos, { page: 1, size: 5 });
+    const validSortKeys: (keyof TodoEntity)[] = ["completedAt", "createdAt", "dueAt"];
+    const sortList = getSortList(options?.sort, validSortKeys, "createdAt");
+    const sortedTodos = sortList.length ? sort(todos).by(sortList) : todos;
+
+    const paginatedTodos = paginate(sortedTodos, options);
     return paginatedTodos;
   }
 

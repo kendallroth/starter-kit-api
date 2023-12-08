@@ -1,3 +1,6 @@
+/** Service function filter operators (similar to pagination) */
+export interface FilterOperators extends Partial<PaginationQuery> {}
+
 /** Page-based pagination metadata */
 export interface Pagination {
   /** Current pagination page */
@@ -12,10 +15,24 @@ export interface Pagination {
 
 /** Pagination request params */
 export interface PaginationQuery {
-  /** Requested page size */
-  size?: string;
-  /** Requested page number */
-  page?: string;
+  /**
+   * Requested page size
+   * @isInt
+   * @minimum 1
+   */
+  size?: number;
+  /**
+   * Requested page number
+   * @isInt
+   * @minimum 1
+   */
+  page?: number
+  /**
+   * Requested sorting order
+   * 
+   * @example "starredAt,-createdAt"
+   */
+  sort?: string;
 }
 
 /** Pagination request params */

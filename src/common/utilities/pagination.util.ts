@@ -9,7 +9,7 @@ export const PAGINATION_PAGE_SIZE_MAX = 100;
 
 /** Parse pagination values from reques query string */
 export const getPaginationFromQuery = (query: PaginationQuery): PaginationInput => {
-  let size = query.size ? parseInt(query.size, 10) : PAGINATION_PAGE_SIZE_DEFAULT;
+  let size = query.size ? parseInt(`${query.size}`, 10) : PAGINATION_PAGE_SIZE_DEFAULT;
   // biome-ignore lint/suspicious/noGlobalIsNan: Type coercion is expected here
   if (isNaN(size)) {
     throw new ClientError("Invalid pagination size");
@@ -18,7 +18,7 @@ export const getPaginationFromQuery = (query: PaginationQuery): PaginationInput 
   if (size <= 0) size = PAGINATION_PAGE_SIZE_DEFAULT;
   if (size > PAGINATION_PAGE_SIZE_MAX) size = PAGINATION_PAGE_SIZE_MAX;
 
-  let page = query.page ? parseInt(query.page) : 1;
+  let page = query.page ? parseInt(`${query.page}`) : 1;
   // biome-ignore lint/suspicious/noGlobalIsNan: Type coercion is expected here
   if (isNaN(page)) {
     throw new ClientError("Invalid pagination page");
@@ -43,10 +43,11 @@ export const getPaginationFromQuery = (query: PaginationQuery): PaginationInput 
  * const allItems = Array.from(this.databaseService.database.values.songBooks.values());
  * return paginate(accounts, paginationInput});
  */
-export const paginate = <T>(allItems: T[], input: PaginationInput): PaginatedResult<T> => {
-  const { page: currentPage } = input;
+export const paginate = <T>(allItems: T[], input?: Partial<PaginationInput>): PaginatedResult<T> => {
+  const currentPage = input?.page ?? 1;
+  const pageSize = input?.size ?? PAGINATION_PAGE_SIZE_DEFAULT;
   const itemCount = allItems.length;
-  const itemsPerPage = Math.min(Math.max(input.size, 1), PAGINATION_PAGE_SIZE_MAX);
+  const itemsPerPage = Math.min(Math.max(pageSize, 1), PAGINATION_PAGE_SIZE_MAX);
   const pageCount = itemCount > 0 ? Math.ceil(itemCount / itemsPerPage) : 0;
 
   const startIdx = (currentPage - 1) * itemsPerPage;

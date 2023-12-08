@@ -284,6 +284,30 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"PaginationQuery": {
+				"description": "Pagination request params",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page size",
+						"minimum": 1
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page number",
+						"minimum": 1
+					},
+					"sort": {
+						"type": "string",
+						"description": "Requested sorting order",
+						"example": "starredAt,-createdAt"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"NotFoundErrorResponse": {
 				"properties": {
 					"message": {
@@ -580,7 +604,40 @@
 						"jwt": []
 					}
 				],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Requested page size",
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
+						}
+					},
+					{
+						"description": "Requested page number",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
+						}
+					},
+					{
+						"description": "Requested sorting order",
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "starredAt,-createdAt"
+					}
+				]
 			},
 			"post": {
 				"operationId": "CreateTodo",

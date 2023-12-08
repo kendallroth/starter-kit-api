@@ -1,6 +1,15 @@
 import type { ISortByObjectSorter } from "fast-sort";
 
-export const getSortParams = <T>(
+/**
+ * Get list of sorting operations (from query params)
+ *
+ * NOTE: Uses `-` for inverted sort.
+ *
+ * @param sort        Sort list or comma-separted string
+ * @param validKeys   List of valid sort keys
+ * @param defaultSort Default sort key
+ */
+export const getSortList = <T>(
   sort: string | string[] | undefined,
   validKeys: string[],
   defaultSort?: string | string[],
@@ -9,12 +18,12 @@ export const getSortParams = <T>(
 
   const sortRaw = sort ?? defaultSort;
   const sortListRaw: string[] = Array.isArray(sortRaw) ? sortRaw : sortRaw?.split(",") ?? [];
-  const sortList = sortListRaw.filter((s) => validKeys.includes(s.replace("-", "").toLowerCase()));
+  const sortList = sortListRaw.filter((s) => validKeys.includes(s.replace("-", "")));
   if (!sortList.length) return [];
 
   const sortConfig = sortList.reduce((accum: ISortByObjectSorter<T>[], key) => {
     const direction = key.startsWith("-") ? "desc" : "asc";
-    // @ts-ignore
+    // @ts-expect-error
     const sort: ISortByObjectSorter<T> = {
       [direction]: key.replace("-", ""),
     };

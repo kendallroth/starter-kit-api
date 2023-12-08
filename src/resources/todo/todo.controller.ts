@@ -6,6 +6,7 @@ import {
   Patch,
   Path,
   Post,
+  Queries,
   Request,
   Response,
   Route,
@@ -23,7 +24,7 @@ import {
   ValidationError,
   ValidationErrorResponse,
 } from "#common/errors";
-import { PaginatedResult } from "#common/types";
+import { PaginatedResult, PaginationQuery } from "#common/types";
 import { HttpStatus } from "#common/utilities";
 import { TodoEntity } from "./todo.entity";
 import { TodoService } from "./todo.service";
@@ -40,8 +41,9 @@ export class TodoController extends Controller {
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   public async getTodos(
     @Request() request: AuthenticatedRequest,
+    @Queries() query: PaginationQuery
   ): Promise<PaginatedResult<TodoEntity>> {
-    return TodoService.getTodos(request.user);
+    return TodoService.getTodos(request.user, query);
   }
 
   /**
