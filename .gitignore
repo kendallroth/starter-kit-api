@@ -1,0 +1,14 @@
+# Build
+build
+.tsbuildinfo
+
+# TSOA generated files
+src/generated/*
+!src/generated/.gitkeep
+
+# Dependencies
+node_modules
+
+# Editors
+.vscode
+!.vscode/extensions.json

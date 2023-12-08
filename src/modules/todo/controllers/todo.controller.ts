@@ -1,0 +1,101 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Path,
+  Post,
+  Request,
+  Response,
+  Route,
+  Security,
+  SuccessResponse,
+  Tags,
+} from "tsoa";
+
+import { AuthenticatedRequest } from "#authentication";
+import {
+  NotFoundError,
+  NotFoundErrorResponse,
+  UnauthorizedError,
+  UnauthorizedErrorResponse,
+  ValidationError,
+  ValidationErrorResponse,
+} from "#common/errors";
+import { PaginatedResult } from "#common/types";
+import { HttpStatus } from "#common/utilities";
+import { TodoCreateBody, TodoEntity, TodoUpdateBody } from "../entities";
+import { TodoService } from "../services";
+
+@Route("todo")
+@Security("jwt")
+@Tags("Todo")
+export class TodoController extends Controller {
+  /**
+   * @summary Get all of user's todos (supports filtering, sorting)
+   */
+  @Get()
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  public async getTodos(
+    @Request() request: AuthenticatedRequest,
+  ): Promise<PaginatedResult<TodoEntity>> {
+    return TodoService.getTodos(request.user);
+  }
+
+  /**
+   * @summary Get a todo
+   */
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Response<NotFoundErrorResponse>(NotFoundError.status, NotFoundError.message)
+  @Get("{id}")
+  public async getTodo(
+    @Request() request: AuthenticatedRequest,
+    @Path("id") todoId: string,
+  ): Promise<TodoEntity> {
+    return TodoService.getTodo(request.user, todoId);
+  }
+
+  /**
+   * @summary Update a todo
+   */
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Response<NotFoundErrorResponse>(NotFoundError.status, NotFoundError.message)
+  @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
+  @Patch("{id}")
+  public async updateTodo(
+    @Request() request: AuthenticatedRequest,
+    @Path("id") todoId: string,
+    @Body() body: TodoUpdateBody,
+  ): Promise<TodoEntity> {
+    return TodoService.updateTodo(request.user, todoId, body);
+  }
+
+  /**
+   * @summary Add a todo
+   */
+  @SuccessResponse(HttpStatus.CREATED)
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
+  @Post()
+  public async createTodo(
+    @Request() request: AuthenticatedRequest,
+    @Body() body: TodoCreateBody,
+  ): Promise<TodoEntity> {
+    this.setStatus(HttpStatus.CREATED);
+    return TodoService.createTodo(request.user, body);
+  }
+
+  /**
+   * @summary Remove a todo
+   */
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
+  @Delete("{id}")
+  public async deleteTodo(
+    @Request() request: AuthenticatedRequest,
+    @Path("id") todoId: string,
+  ): Promise<TodoEntity> {
+    return TodoService.deleteTodo(request.user, todoId);
+  }
+}
