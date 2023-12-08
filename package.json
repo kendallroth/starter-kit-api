@@ -5,7 +5,7 @@
   "main": "./build/server.js",
   "scripts": {
     "prebuild": "rimraf ./build/*",
-    "build": "tsoa spec-and-routes && tsc",
+    "build": "tsoa spec-and-routes && tsc && tsc-alias",
     "dev": "concurrently 'nodemon' 'nodemon -x tsoa spec-and-routes'",
     "dev:tsoa": "nodemon -x tsoa spec-and-routes",
     "dev:server": "nodemon",
@@ -39,6 +39,7 @@
     "nodemon": "^3.0.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   }
