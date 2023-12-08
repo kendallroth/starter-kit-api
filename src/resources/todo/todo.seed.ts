@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
-import { mapToArray } from "#common/utilities/list";
-import { seedAccountIds } from "#modules/account/entities";
+import { mapToArray } from "#common/utilities";
+import { seedAccountIds } from "#resources/account/account.seed";
 import { TodoEntity, stubTodo } from "./todo.entity";
 
 export const seedTodoIds = {

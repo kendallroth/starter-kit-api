@@ -2,10 +2,10 @@ import * as express from "express";
 import jwt from "jsonwebtoken";
 
 import { UnauthorizedError } from "#common/errors";
-import { AccountEntity, AccountResponse } from "#modules/account/entities";
-import { AccountService } from "#modules/account/services";
-
-export const JWT_SECRET = "secret";
+import { appConfig } from "#config";
+import { AccountEntity } from "#resources/account/account.entity";
+import { AccountService } from "#resources/account/account.service";
+import { AccountResponse } from "#resources/account/account.types";
 
 export interface AuthenticatedRequest extends express.Request {
   user: AccountResponse;
@@ -30,7 +30,7 @@ export const expressAuthentication = async (
     }
 
     return new Promise((resolve, reject) => {
-      jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      jwt.verify(token, appConfig.auth.jwtSecret, (err, decoded) => {
         if (err) {
           return reject(unauthorizedError);
         }

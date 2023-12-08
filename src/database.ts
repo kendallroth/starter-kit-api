@@ -1,7 +1,9 @@
 import { Low as LowDB, Memory as MemoryAdapter } from "lowdb";
 
-import { AccountEntity, seededAccountMap } from "#modules/account/entities";
-import { TodoEntity, seededTodoMap } from "#modules/todo/entities";
+import { AccountEntity } from "#resources/account/account.entity";
+import { seededAccountMap } from "#resources/account/account.seed";
+import { TodoEntity } from "#resources/todo/todo.entity";
+import { seededTodoMap } from "#resources/todo/todo.seed";
 
 export interface Database {
   accounts: Map<string, AccountEntity>;

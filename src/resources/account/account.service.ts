@@ -1,14 +1,15 @@
 import jwt from "jsonwebtoken";
 
-import { JWT_SECRET } from "#authentication";
 import { NotFoundError, UnauthorizedError } from "#common/errors";
-import { mapToArray } from "#common/utilities/list";
+import { mapToArray } from "#common/utilities";
+import { appConfig } from "#config";
 import { database } from "#database";
-import { AccountEntity, AccountLoginBody, AuthenticateResponse } from "#modules/account/entities";
+import { AccountEntity } from "#resources/account/account.entity";
+import { AccountLoginBody, AuthenticationResponse } from "#resources/account/account.types";
 
 class AccountService {
   /** Authenticate account credentials */
-  public authenticate = (body: AccountLoginBody): AuthenticateResponse => {
+  public authenticate = (body: AccountLoginBody): AuthenticationResponse => {
     const account = this.getAccountByEmail(body.email);
     if (!account) {
       throw new UnauthorizedError("Invalid credentials");
@@ -19,8 +20,8 @@ class AccountService {
         accountId: account.id,
         email: account.email,
       },
-      JWT_SECRET,
-      { expiresIn: "1d" },
+      appConfig.auth.jwtSecret,
+      { expiresIn: appConfig.auth.jwtExpiry },
     );
 
     return {

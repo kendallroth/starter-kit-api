@@ -1,13 +1,15 @@
 import { BaseEntity, stubEntity } from "#common/entities";
+import { Timestamp, UUID } from "#common/types";
 
 export interface TodoEntity extends BaseEntity {
-  accountId: string;
+  // Relationships
+  accountId: UUID;
 
   text: string;
   description?: string | null;
-  dueAt?: string | null;
-  completedAt?: string | null;
-  starredAt?: string | null;
+  dueAt?: Timestamp | null;
+  completedAt?: Timestamp | null;
+  starredAt?: Timestamp | null;
 }
 
 export const stubTodo = stubEntity<TodoEntity>;

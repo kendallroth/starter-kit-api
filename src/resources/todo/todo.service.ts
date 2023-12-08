@@ -1,10 +1,10 @@
 import { NotFoundError } from "#common/errors";
 import { PaginatedResult } from "#common/types";
-import { paginate } from "#common/utilities";
-import { mapToArray } from "#common/utilities/list";
+import { mapToArray, paginate } from "#common/utilities";
 import { database } from "#database";
-import { AccountEntity } from "#modules/account/entities";
-import { TodoCreateBody, TodoEntity, TodoUpdateBody, stubTodo } from "../entities";
+import { AccountEntity } from "#resources/account/account.entity";
+import { TodoEntity, stubTodo } from "./todo.entity";
+import { TodoCreateBody, TodoUpdateBody } from "./todo.types";
 
 class TodoService {
   public getTodos(account: AccountEntity): PaginatedResult<TodoEntity> {

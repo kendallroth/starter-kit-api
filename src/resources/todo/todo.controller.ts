@@ -25,8 +25,9 @@ import {
 } from "#common/errors";
 import { PaginatedResult } from "#common/types";
 import { HttpStatus } from "#common/utilities";
-import { TodoCreateBody, TodoEntity, TodoUpdateBody } from "../entities";
-import { TodoService } from "../services";
+import { TodoEntity } from "./todo.entity";
+import { TodoService } from "./todo.service";
+import { TodoCreateBody, TodoUpdateBody } from "./todo.types";
 
 @Route("todo")
 @Security("jwt")

@@ -4,7 +4,7 @@ build
 
 # TSOA generated files
 src/generated/*
-!src/generated/.gitkeep
+!src/generated/swagger.json
 
 # Dependencies
 node_modules

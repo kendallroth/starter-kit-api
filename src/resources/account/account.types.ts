@@ -6,7 +6,7 @@ export interface AccountLoginBody {
   email: string;
 }
 
-export interface AuthenticateResponse {
+export interface AuthenticationResponse {
   account: AccountResponse;
   token: string;
 }

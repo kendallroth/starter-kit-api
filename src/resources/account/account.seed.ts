@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { mapToArray } from "#common/utilities/list";
+import { mapToArray } from "#common/utilities";
 import { AccountEntity, stubAccount } from "./account.entity";
 
 export const seedAccountIds = {

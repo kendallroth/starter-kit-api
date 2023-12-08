@@ -32,8 +32,9 @@
     "paths": {
       "#authentication": ["./src/authentication.ts"],
       "#common/*": ["./src/common/*"],
+      "#config": ["./src/config.ts"],
       "#database": ["./src/database.ts"],
-      "#modules/*": ["./src/modules/*"],
+      "#resources/*": ["./src/resources/*"],
       // Fix for `tsconfig-paths` conflict with `tsoa`
       // Source: https://github.com/lukeautry/tsoa/issues/1090
       "tsoa": ["node_modules/tsoa"],

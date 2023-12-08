@@ -1,10 +1,14 @@
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
 
+import { Timestamp, UUID } from "#common/types";
+
 export interface BaseEntity {
-  id: string;
-  createdAt: string;
-  updatedAt?: string;
+  id: UUID;
+  /** When entity was created (ISO timestamp) */
+  createdAt: Timestamp;
+  /** When entity was last updated (ISO timestamp) */
+  updatedAt?: Timestamp;
 }
 
 /** Mark all base entity fields as optional */
