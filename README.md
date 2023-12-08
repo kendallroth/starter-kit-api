@@ -8,4 +8,4 @@ TODO
 
 ## API Scheme
 
-TODO
+[Swagger Doc](./src/generated/swagger.json)

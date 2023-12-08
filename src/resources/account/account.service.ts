@@ -1,35 +1,9 @@
-import jwt from "jsonwebtoken";
-
-import { NotFoundError, UnauthorizedError } from "#common/errors";
+import { NotFoundError } from "#common/errors";
 import { mapToArray } from "#common/utilities";
-import { appConfig } from "#config";
 import { database } from "#database";
 import { AccountEntity } from "#resources/account/account.entity";
-import { AccountLoginBody, AuthenticationResponse } from "#resources/account/account.types";
 
 class AccountService {
-  /** Authenticate account credentials */
-  public authenticate = (body: AccountLoginBody): AuthenticationResponse => {
-    const account = this.getAccountByEmail(body.email);
-    if (!account) {
-      throw new UnauthorizedError("Invalid credentials");
-    }
-
-    const token = jwt.sign(
-      {
-        accountId: account.id,
-        email: account.email,
-      },
-      appConfig.auth.jwtSecret,
-      { expiresIn: appConfig.auth.jwtExpiry },
-    );
-
-    return {
-      account,
-      token,
-    };
-  };
-
   public getAccountById = (id: string): AccountEntity | undefined => {
     const accountsRef = database.data!.accounts;
     return accountsRef.get(id);

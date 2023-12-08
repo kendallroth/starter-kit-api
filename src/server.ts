@@ -17,9 +17,11 @@ app.use(
   }),
 );
 app.use(json());
-app.use(requestLogger({
-  ignore: ["/docs"]
-}));
+app.use(
+  requestLogger({
+    ignore: ["/docs"],
+  }),
+);
 
 const swaggerDoc = swaggerUi.generateHTML(import("./generated/swagger.json"));
 app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {

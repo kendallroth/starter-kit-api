@@ -62,7 +62,7 @@ class TodoService {
     const updatedTodo = {
       ...todo,
       ...body,
-    }
+    };
 
     database.data?.todos.set(todo.id, updatedTodo);
     database.write();

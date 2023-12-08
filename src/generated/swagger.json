@@ -401,7 +401,7 @@
 				"parameters": []
 			}
 		},
-		"/account/login": {
+		"/auth/login": {
 			"post": {
 				"operationId": "Login",
 				"responses": {
@@ -428,7 +428,7 @@
 				},
 				"summary": "Authenticate user via credentials",
 				"tags": [
-					"Account"
+					"Auth"
 				],
 				"security": [],
 				"parameters": [],

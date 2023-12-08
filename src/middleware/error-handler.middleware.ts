@@ -4,7 +4,12 @@ import { ValidateError } from "tsoa";
 import { BaseError } from "#common/errors";
 
 /** Error handler, converting thrown errors into suitable shape for clients */
-export const routeErrorHandler = (err: unknown, _req: Request, res: Response, next: NextFunction) => {
+export const routeErrorHandler = (
+  err: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (err instanceof ValidateError) {
     return res.status(422).json({
       message: "Validation failed",
@@ -28,4 +33,4 @@ export const routeErrorHandler = (err: unknown, _req: Request, res: Response, ne
   // TODO: Decide how to handle other unexpected errors (ie plain objects, etc)?
 
   return next();
-}
+};
