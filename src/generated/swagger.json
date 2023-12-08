@@ -73,13 +73,20 @@
 					"account": {
 						"$ref": "#/components/schemas/AccountResponse"
 					},
-					"token": {
-						"type": "string"
+					"accessToken": {
+						"type": "string",
+						"description": "Authorization token (short expiry)",
+						"format": "jwt"
+					},
+					"refreshToken": {
+						"type": "string",
+						"description": "Refresh toke to exchange for new authorization token"
 					}
 				},
 				"required": [
 					"account",
-					"token"
+					"accessToken",
+					"refreshToken"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -96,6 +103,30 @@
 				"required": [
 					"email",
 					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ClientErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TokenRefreshBody": {
+				"properties": {
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"refreshToken"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -407,6 +438,49 @@
 				}
 			}
 		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ClientErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Refresh authentication token",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TokenRefreshBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/todo": {
 			"get": {
 				"operationId": "GetTodos",
@@ -672,6 +746,149 @@
 					}
 				],
 				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/": {
+			"get": {
+				"operationId": "ApiInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"deployment": {
+											"type": "string"
+										},
+										"status": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"deployment",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"summary": "API information",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db/reset": {
+			"delete": {
+				"operationId": "ResetDatabase",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Reset database",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db": {
+			"get": {
+				"operationId": "ViewDatabase",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {},
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db/{entity}": {
+			"get": {
+				"operationId": "ViewDatabaseEntityList",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database entity list (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/db/{entity}/{id}": {
+			"get": {
+				"operationId": "ViewDatabaseEntity",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database individual entity (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
 					{
 						"in": "path",
 						"name": "id",

@@ -5,10 +5,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "#authentication": ["./src/authentication.ts"],
+      "#authentication": ["./src/server/authentication.ts"],
       "#common/*": ["./src/common/*"],
-      "#config": ["./src/config.ts"],
-      "#database/*": ["./src/database.ts"],
+      "#config": ["./src/server/config.ts"],
+      "#database": ["./src/server/database.ts"],
       "#resources/*": ["./src/resources/*"]
     }
   },
@@ -24,7 +24,7 @@
     }
   },
   "routes": {
-    "authenticationModule": "./src/authentication.ts",
+    "authenticationModule": "./src/server/authentication.ts",
     "routesDir": "./src/generated"
   }
 }

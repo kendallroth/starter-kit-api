@@ -4,7 +4,6 @@ import swaggerUi from "swagger-ui-express";
 // NOTE: Patches Express routes to support errors in async flows
 import "express-async-errors";
 
-import { HttpStatus } from "#common/utilities";
 import { appConfig } from "#config";
 import { RegisterRoutes as RegisterGeneratedRoutes } from "./generated/routes";
 import { requestLogger, routeDelayHandler, routeErrorHandler } from "./middleware";
@@ -34,14 +33,6 @@ app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
 
 // Introduce brief delay on all other endpoints (to simulate network traffic)
 app.use(routeDelayHandler);
-
-// Root API route handler
-app.get("/", (_req, res) => {
-  res.status(HttpStatus.OK).json({
-    status: "ok",
-    deployment: appConfig.gitHash,
-  });
-});
 
 // Generated routes should be last routes registered (other than catch-all)!
 //   Authentication is implemented by tsoa based on "./authentication.ts".
