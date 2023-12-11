@@ -24,7 +24,7 @@ class TodoService {
   public getTodoById(id: string): TodoEntity | undefined {
     const todosRef = database.data!.todos;
     return todosRef.get(id);
-  };
+  }
 
   public getTodo(account: AccountEntity, id: string): TodoEntity {
     const todo = this.getTodoById(id);
@@ -37,7 +37,7 @@ class TodoService {
 
   public getTodoStats(account?: AccountEntity): TodoStatsResponse {
     const todosRef = database.data!.todos;
-    const todos = mapToArray(todosRef).filter((t) => account ? t.accountId === account.id : true);
+    const todos = mapToArray(todosRef).filter((t) => (account ? t.accountId === account.id : true));
 
     return todos.reduce((accum, todo) => {
       const completed = !!todo.completedAt;
@@ -53,7 +53,7 @@ class TodoService {
         upcoming: (accum.upcoming ?? 0) + (upcoming ? 1 : 0),
         uncompleted: (accum.uncompleted ?? 0) + (!completed ? 1 : 0),
       };
-    }, {} as TodoStatsResponse)
+    }, {} as TodoStatsResponse);
   }
 
   public createTodo(account: AccountEntity, body: TodoCreateBody): TodoEntity {

@@ -1,7 +1,23 @@
-import { Body, Controller, Get, Post, Request, Response, Route, Security, SuccessResponse, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  Response,
+  Route,
+  Security,
+  SuccessResponse,
+  Tags,
+} from "tsoa";
 
 import { AuthenticatedRequest } from "#authentication";
-import { UnauthorizedError, UnauthorizedErrorResponse, ValidationError, ValidationErrorResponse } from "#common/errors";
+import {
+  UnauthorizedError,
+  UnauthorizedErrorResponse,
+  ValidationError,
+  ValidationErrorResponse,
+} from "#common/errors";
 import { HttpStatus } from "#common/utilities";
 import { AuthenticationResponse } from "#resources/auth/auth.types";
 import { AccountService } from "./account.service";
@@ -26,9 +42,7 @@ export class AccountController extends Controller {
   @SuccessResponse(HttpStatus.CREATED)
   @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
   @Post()
-  public async createTodo(
-    @Body() body: AccountCreateBody,
-  ): Promise<AuthenticationResponse> {
+  public async createTodo(@Body() body: AccountCreateBody): Promise<AuthenticationResponse> {
     this.setStatus(HttpStatus.CREATED);
     return AccountService.createAccount(body);
   }

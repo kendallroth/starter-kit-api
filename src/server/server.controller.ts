@@ -4,9 +4,10 @@ import { NotFoundError } from "#common/errors";
 import { appConfig } from "#config";
 import { database, seededData } from "#database";
 
-const serializedDatabase = () => Object.entries(database.data!).reduce((accum, [key, value]) => {
-  return { ...accum, [key]: Object.fromEntries(value) };
-}, {});
+const serializedDatabase = () =>
+  Object.entries(database.data!).reduce((accum, [key, value]) => {
+    return { ...accum, [key]: Object.fromEntries(value) };
+  }, {});
 
 @Route("/")
 @Tags("Api")
@@ -41,9 +42,8 @@ export class ServerController extends Controller {
    * @summary View serialized database entity list (for development)
    */
   @Get("db/{entity}")
-  public async viewDatabaseEntityList(
-    @Path("entity") entity: string,
-  ) {
+  public async viewDatabaseEntityList(@Path("entity") entity: string) {
+    // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
     const entities = (serializedDatabase() as any)[entity];
     if (!entities) {
       throw new NotFoundError("Invalid list");
@@ -51,15 +51,12 @@ export class ServerController extends Controller {
     return entities;
   }
 
-
   /**
    * @summary View serialized database individual entity (for development)
    */
   @Get("db/{entity}/{id}")
-  public async viewDatabaseEntity(
-    @Path("entity") entity: string,
-    @Path("id") id: string,
-  ) {
+  public async viewDatabaseEntity(@Path("entity") entity: string, @Path("id") id: string) {
+    // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
     const list = (serializedDatabase() as any)[entity];
     if (!list) {
       throw new NotFoundError("Invalid list");

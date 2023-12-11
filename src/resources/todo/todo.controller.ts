@@ -42,7 +42,7 @@ export class TodoController extends Controller {
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   public async getTodos(
     @Request() request: AuthenticatedRequest,
-    @Queries() query: PaginationQuery
+    @Queries() query: PaginationQuery,
   ): Promise<PaginatedResult<TodoEntity>> {
     return TodoService.getTodos(request.user, query);
   }
@@ -53,9 +53,7 @@ export class TodoController extends Controller {
   // NOTE: Must be registered BEFORE ":id" route!
   @Get("stats")
   @NoSecurity()
-  public async getTodoStats(
-    @Request() request: AuthenticatedRequest,
-  ): Promise<TodoStatsResponse> {
+  public async getTodoStats(@Request() request: AuthenticatedRequest): Promise<TodoStatsResponse> {
     return TodoService.getTodoStats(request.user);
   }
 

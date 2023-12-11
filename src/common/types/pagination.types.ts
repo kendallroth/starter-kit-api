@@ -26,10 +26,10 @@ export interface PaginationQuery {
    * @isInt
    * @minimum 1
    */
-  page?: number
+  page?: number;
   /**
    * Requested sorting order
-   * 
+   *
    * @example "starredAt,-createdAt"
    */
   sort?: string;

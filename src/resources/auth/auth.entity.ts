@@ -11,4 +11,3 @@ export interface RefreshTokenEntity extends BaseEntity {
 }
 
 export const stubRefreshToken = stubEntity<RefreshTokenEntity>;
-

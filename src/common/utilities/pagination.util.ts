@@ -43,7 +43,10 @@ export const getPaginationFromQuery = (query: PaginationQuery): PaginationInput 
  * const allItems = Array.from(this.databaseService.database.values.songBooks.values());
  * return paginate(accounts, paginationInput});
  */
-export const paginate = <T>(allItems: T[], input?: Partial<PaginationInput>): PaginatedResult<T> => {
+export const paginate = <T>(
+  allItems: T[],
+  input?: Partial<PaginationInput>,
+): PaginatedResult<T> => {
   const currentPage = input?.page ?? 1;
   const pageSize = input?.size ?? PAGINATION_PAGE_SIZE_DEFAULT;
   const itemCount = allItems.length;
