@@ -1,46 +1,20 @@
 {
-  "name": "starter-kit-api",
+  "name": "@starter-kit-api/project",
   "version": "1.0.0",
-  "description": "Simple API for `starter-kit` projects",
-  "main": "./build/server.js",
+  "description": "Monorepo project for `starter-kit-api`",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "prebuild": "rimraf ./build/*",
-    "build": "tsoa spec-and-routes && tsc && tsc-alias",
-    "dev": "concurrently 'nodemon' 'nodemon -x tsoa spec-and-routes'",
-    "dev:tsoa": "nodemon -x tsoa spec-and-routes",
-    "dev:server": "nodemon",
-    "code:check": "biome check src/",
-    "code:check:fix": "biome check src/ --apply",
-    "code:format": "biome format src/ --write",
-    "code:lint": "biome lint src/ --apply",
-    "start": "node ./build/server.js"
+    "dev": "turbo run dev",
+    "postinstall": "manypkg check"
   },
-  "author": "Kendall Roth <kendall@kendallroth.ca>",
   "license": "MIT",
   "dependencies": {
-    "dayjs": "^1.11.10",
-    "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "fast-sort": "^3.4.0",
-    "jsonwebtoken": "^9.0.2",
-    "lowdb": "github:dankreiger/lowdb#chore/esm-cjs-hybrid-WITH-LIB",
-    "swagger-ui-express": "^5.0.0",
-    "tsoa": "^5.1.1",
-    "uuid": "^9.0.1"
-  },
-  "devDependencies": {
     "@biomejs/biome": "^1.4.1",
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/node": "^20.10.4",
-    "@types/swagger-ui-express": "^4.1.6",
-    "@types/uuid": "^9.0.7",
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2",
-    "rimraf": "^5.0.5",
-    "ts-node": "^10.9.1",
-    "tsc-alias": "^1.8.8",
-    "tsconfig-paths": "^4.2.0",
+    "@manypkg/cli": "^0.21.1",
+    "tsup": "^8.0.1",
+    "turbo": "^1.11.1",
     "typescript": "^5.3.3"
   }
 }

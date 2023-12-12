@@ -1,0 +1,30 @@
+{
+  "entryFile": "./src/server/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["./src/**/*.controller.ts"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "#authentication": ["./src/server/authentication.ts"],
+      "#common/*": ["./src/common/*"],
+      "#config": ["./src/server/config.ts"],
+      "#database": ["./src/server/database.ts"],
+      "#resources/*": ["./src/resources/*"]
+    }
+  },
+  "spec": {
+    "outputDirectory": "./src/generated",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "authenticationModule": "./src/server/authentication.ts",
+    "routesDir": "./src/generated"
+  }
+}

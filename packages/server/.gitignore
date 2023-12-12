@@ -1,0 +1,4 @@
+# TSOA generated files
+src/generated/*
+!src/generated/swagger.json
+!src/generated/README.md

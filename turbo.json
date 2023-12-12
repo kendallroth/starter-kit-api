@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  // Pipeline keys will run all similar scripts in workspace projects when executed with package manager
+  //   For example, `turbo build` will execute `build` script in all workspace projects.
+  "pipeline": {
+    "build": {
+      "dependsOn": [
+        // Run builds in workspaces that other packages depend on first
+        "^build",
+        // Runs code generation tasks before builds
+        "codegen"
+      ],
+      "outputs": ["build/**"]
+    },
+    "codegen": {
+      "outputs": ["generated/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {}
+  }
+}

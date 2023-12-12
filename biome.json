@@ -1,10 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.4.0/schema.json",
   "organizeImports": {
     "enabled": true
   },
   "files": {
-    "ignore": ["generated"]
+    "ignore": ["src/generated"]
   },
   "javascript": {
     "formatter": {
@@ -15,6 +15,11 @@
     },
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
     }
   },
   "formatter": {

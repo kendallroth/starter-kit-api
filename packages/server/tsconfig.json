@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "#authentication": ["./src/server/authentication.ts"],
+      "#common/*": ["./src/common/*"],
+      "#config": ["./src/server/config.ts"],
+      "#database": ["./src/server/database.ts"],
+      "#resources/*": ["./src/resources/*"],
+      // Fix for `tsconfig-paths` conflict with `tsoa`
+      // Source: https://github.com/lukeautry/tsoa/issues/1090
+      "tsoa": ["node_modules/tsoa"]
+    }
+  }
+}
