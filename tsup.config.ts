@@ -7,13 +7,13 @@ export default defineConfig((_options) => {
     clean: true,
     dts: true,
     entry: {
-      server: "./src/server/index.ts",
-      shared: "./src/shared/index.ts"
+      cli: "./src/cli.ts",
+      shared: "./src/shared.ts"
     },
     format: ["cjs", "esm"],
-    splitting: true,
+    splitting: production,
     metafile: !production,
-    minify: true,
+    minify: production,
     outDir: "build",
   };
 });

@@ -12,6 +12,8 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
+      "#common/*": ["./src/common/*"],
+      "#resources/*": ["./src/resources/*"],
       "#server/*": ["./src/server/*"],
       "#shared/*": ["./src/shared/*"],
       // Fix for `tsconfig-paths` conflict with `tsoa`

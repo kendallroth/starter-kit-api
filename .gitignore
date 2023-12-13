@@ -7,7 +7,7 @@ build
 node_modules
 
 # TSOA-generated files
-generated/*
+generated/
 !generated/swagger.json
 !generated/README.md
 
