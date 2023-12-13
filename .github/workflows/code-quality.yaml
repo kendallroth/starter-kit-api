@@ -16,4 +16,6 @@ jobs:
           cache: npm
           cache-dependency-path: "package-lock.json"
       - run: npm install
+      # Must generate TSOA files before linting (used in project)
+      - run: npm run build:generate
       - run: npm run lint
