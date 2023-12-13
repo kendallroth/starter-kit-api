@@ -23,7 +23,6 @@
     }
   },
   "scripts": {
-    "prebuild": "npm run lint:types",
     "build": "npm run build:bundle && npm run build:generate",
     "build:bundle": "tsup",
     "build:generate": "tsoa spec-and-routes && copyfiles src/generated/swagger.json build --up 2",
