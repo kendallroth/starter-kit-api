@@ -1,0 +1,1118 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Timestamp": {
+				"type": "string",
+				"format": "date-time",
+				"description": "Stringified ISO timestamp"
+			},
+			"UUID": {
+				"type": "string",
+				"format": "uuid",
+				"description": "Stringified UUIDv4",
+				"pattern": "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}"
+			},
+			"AccountResponse": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					},
+					"verifiedAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true,
+						"description": "When account was verified"
+					},
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"createdAt": {
+						"$ref": "#/components/schemas/Timestamp",
+						"description": "When entity was created (ISO timestamp)"
+					},
+					"updatedAt": {
+						"$ref": "#/components/schemas/Timestamp",
+						"description": "When entity was last updated (ISO timestamp)"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"id",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UnauthorizedErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AuthenticationResponse": {
+				"properties": {
+					"account": {
+						"$ref": "#/components/schemas/AccountResponse"
+					},
+					"accessToken": {
+						"type": "string",
+						"description": "Authorization token (short expiry)",
+						"format": "jwt"
+					},
+					"refreshToken": {
+						"type": "string",
+						"description": "Refresh toke to exchange for new authorization token"
+					}
+				},
+				"required": [
+					"account",
+					"accessToken",
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ValidationErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"fields": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"fields"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountCreateBody": {
+				"properties": {
+					"password": {
+						"type": "string",
+						"format": "password"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"email",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountLoginBody": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ClientErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TokenRefreshBody": {
+				"properties": {
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TodoEntity": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"createdAt": {
+						"$ref": "#/components/schemas/Timestamp",
+						"description": "When entity was created (ISO timestamp)"
+					},
+					"updatedAt": {
+						"$ref": "#/components/schemas/Timestamp",
+						"description": "When entity was last updated (ISO timestamp)"
+					},
+					"accountId": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"dueAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					},
+					"completedAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					},
+					"starredAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"createdAt",
+					"accountId",
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pagination": {
+				"description": "Page-based pagination metadata",
+				"properties": {
+					"page": {
+						"type": "number",
+						"format": "double",
+						"description": "Current pagination page"
+					},
+					"size": {
+						"type": "number",
+						"format": "double",
+						"description": "Page size"
+					},
+					"totalItems": {
+						"type": "number",
+						"format": "double",
+						"description": "Total number of available items (ie. not just item count of current page!)"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double",
+						"description": "Total number of available pages"
+					}
+				},
+				"required": [
+					"page",
+					"size",
+					"totalItems",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResult_TodoEntity_": {
+				"description": "Paginated data with pagination info/links\n\nNOTE: Since class uses generics for tying 'data', multiple properties must be replicated for\n        Swagger documentation (since plugin does not pick up properly with generics).",
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/TodoEntity"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"$ref": "#/components/schemas/Pagination",
+						"description": "Result pagination information"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginationQuery": {
+				"description": "Pagination request params",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page size",
+						"minimum": 1
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page number",
+						"minimum": 1
+					},
+					"sort": {
+						"type": "string",
+						"description": "Requested sorting order",
+						"example": "starredAt,-createdAt"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TodoStatsResponse": {
+				"properties": {
+					"completed": {
+						"type": "number",
+						"format": "double",
+						"description": "Completed todos"
+					},
+					"starred": {
+						"type": "number",
+						"format": "double",
+						"description": "Starred todos"
+					},
+					"total": {
+						"type": "number",
+						"format": "double",
+						"description": "Total todos"
+					},
+					"overdue": {
+						"type": "number",
+						"format": "double",
+						"description": "Overdue todos (based on `dueDate`)"
+					},
+					"upcoming": {
+						"type": "number",
+						"format": "double",
+						"description": "Upcoming todos (based on `dueDate`)"
+					},
+					"uncompleted": {
+						"type": "number",
+						"format": "double",
+						"description": "Uncompleted todos"
+					}
+				},
+				"required": [
+					"completed",
+					"starred",
+					"total",
+					"overdue",
+					"upcoming",
+					"uncompleted"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NotFoundErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TodoUpdateBody": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"dueAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					},
+					"starredAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TodoCreateBody": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"dueAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					},
+					"starredAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "@kendallroth/starter-kit-api",
+		"version": "0.1.0",
+		"description": "Simple API for `starter-kit-*` projects",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/account/current": {
+			"get": {
+				"operationId": "GetCurrent",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AccountResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get authenticated user details",
+				"tags": [
+					"Account"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/account": {
+			"post": {
+				"operationId": "CreateTodo",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Create an account",
+				"tags": [
+					"Account"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Authenticate user via credentials",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountLoginBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ClientErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Refresh authentication token",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TokenRefreshBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/todo": {
+			"get": {
+				"operationId": "GetTodos",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResult_TodoEntity_"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get all of user's todos (supports filtering, sorting)",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Requested page size",
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
+						}
+					},
+					{
+						"description": "Requested page number",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
+						}
+					},
+					{
+						"description": "Requested sorting order",
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "starredAt,-createdAt"
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateTodo",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Add a todo",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TodoCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/todo/stats": {
+			"get": {
+				"operationId": "GetTodoStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoStatsResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View platform todo stats",
+				"tags": [
+					"Todo"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/todo/stats/account": {
+			"get": {
+				"operationId": "GetAccountTodoStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoStatsResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View account todo stats",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/todo/{id}": {
+			"get": {
+				"operationId": "GetTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NotFoundErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get a todo",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NotFoundErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Update a todo",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TodoUpdateBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodoEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Remove a todo",
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/": {
+			"get": {
+				"operationId": "ApiInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"status": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"summary": "API information",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db/reset": {
+			"delete": {
+				"operationId": "ResetDatabase",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Reset database",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db": {
+			"get": {
+				"operationId": "ViewDatabase",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {},
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db/{entity}": {
+			"get": {
+				"operationId": "ViewDatabaseEntityList",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database entity list (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/db/{entity}/{id}": {
+			"get": {
+				"operationId": "ViewDatabaseEntity",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database individual entity (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

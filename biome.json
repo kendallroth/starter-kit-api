@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["src/generated"]
+    "ignore": ["generated"]
   },
   "javascript": {
     "formatter": {
