@@ -23,7 +23,7 @@
     }
   },
   "scripts": {
-    "build": "npm run build:bundle && npm run build:generate",
+    "build": "npm run build:generate && npm run build:bundle",
     "build:bundle": "tsup",
     "build:generate": "tsoa spec-and-routes && copyfiles src/generated/swagger.json build --up 2",
     "dev": "npm run build -- --watch",
