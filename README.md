@@ -6,6 +6,7 @@ Simple API package for `starter-kit-*` projects.
 
 - ✔️ Implement simple API (with CLI wrapper) for `starter-kit-*` projects
 - ✔️ Provide utility functions for mimicking API behaviour in frontend mocking (via MSW, etc)
+- ✔️ Swagger documentation pages (via GitHub Actions)
 - ⌛ Handle development workflow (live reload either server or CLI)
   - Maybe support two dev workflows (ie. `dev:server` and `dev:cli`)
 - ⌛ Add API error codes for client localization
@@ -48,7 +49,7 @@ import { paginate } from "@kendallroth/starter-kit-api/shared";
 
 ## API Documentation
 
-[Swagger Doc](./src/generated/swagger.json)
+[Swagger Doc](./docs/swagger.json)
 
 ## Development
 

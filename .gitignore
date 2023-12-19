@@ -8,9 +8,8 @@ node_modules
 
 # TSOA-generated files
 generated/
-!generated/swagger.json
 !generated/README.md
 
 # Editors
-.vscode
+.vscode/*
 !.vscode/extensions.json
