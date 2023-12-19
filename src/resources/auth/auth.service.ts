@@ -5,15 +5,15 @@ import { v4 as uuid } from "uuid";
 import { ClientError, UnauthorizedError } from "#common/errors";
 import { mapToArray } from "#common/utilities";
 import { AccountService } from "#resources/account/account.service";
-import { AccountLoginBody, AccountResponse } from "#resources/account/account.types";
+import { AccountResponse } from "#resources/account/account.types";
 import { serverConfig } from "#server/config";
 import { database } from "#server/database";
 import { RefreshTokenEntity, stubRefreshToken } from "./auth.entity";
-import { AuthenticationResponse, TokenRefreshBody } from "./auth.types";
+import { AuthLoginBody, AuthenticationResponse, TokenRefreshBody } from "./auth.types";
 
 class AuthService {
   /** Authenticate account credentials */
-  public authenticate(body: AccountLoginBody): AuthenticationResponse {
+  public authenticate(body: AuthLoginBody): AuthenticationResponse {
     const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
       throw new UnauthorizedError("Invalid credentials", "CREDENTIALS_INVALID");

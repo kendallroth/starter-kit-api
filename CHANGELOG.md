@@ -8,10 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Deploy Swagger doc to GitHub Pages
 
 ### Changed
-- Improve build scripts
 
 ### Deprecated
 
@@ -24,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <hr />
 
 ## `0.2.0` (2023-Dec-19)
+
+### Added
+- Change password route
 
 ### Internal
 - Improve build/copy scripts

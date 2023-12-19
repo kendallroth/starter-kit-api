@@ -61,7 +61,7 @@
 					"code": {
 						"type": "string",
 						"description": "Error code for consuming applications",
-						"example": "EMAIL_ALREADY_USED"
+						"example": "ERROR_CODE"
 					},
 					"message": {
 						"type": "string",
@@ -103,7 +103,7 @@
 					"code": {
 						"type": "string",
 						"description": "Error code for consuming applications",
-						"example": "EMAIL_ALREADY_USED"
+						"example": "ERROR_CODE"
 					},
 					"message": {
 						"type": "string",
@@ -147,13 +147,17 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"AccountLoginBody": {
+			"AuthLoginBody": {
 				"properties": {
 					"email": {
-						"type": "string"
+						"type": "string",
+						"example": "dev@example.com"
 					},
 					"password": {
-						"type": "string"
+						"type": "string",
+						"example": "Passw0rd!",
+						"format": "password",
+						"minLength": 8
 					}
 				},
 				"required": [
@@ -168,7 +172,7 @@
 					"code": {
 						"type": "string",
 						"description": "Error code for consuming applications",
-						"example": "EMAIL_ALREADY_USED"
+						"example": "ERROR_CODE"
 					},
 					"message": {
 						"type": "string",
@@ -190,6 +194,25 @@
 				},
 				"required": [
 					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PasswordChangeBody": {
+				"properties": {
+					"oldPassword": {
+						"type": "string",
+						"format": "password"
+					},
+					"newPassword": {
+						"type": "string",
+						"format": "password",
+						"minLength": 8
+					}
+				},
+				"required": [
+					"oldPassword",
+					"newPassword"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -378,7 +401,7 @@
 					"code": {
 						"type": "string",
 						"description": "Error code for consuming applications",
-						"example": "EMAIL_ALREADY_USED"
+						"example": "ERROR_CODE"
 					},
 					"message": {
 						"type": "string",
@@ -593,7 +616,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AccountLoginBody"
+								"$ref": "#/components/schemas/AuthLoginBody"
 							}
 						}
 					}
@@ -637,6 +660,56 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/TokenRefreshBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/password/change": {
+			"patch": {
+				"operationId": "ChangePassword",
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Change user's password",
+				"tags": [
+					"Auth"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PasswordChangeBody"
 							}
 						}
 					}

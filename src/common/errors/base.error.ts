@@ -5,7 +5,7 @@ export abstract class BaseError extends Error {
   /**
    * Error code for consuming applications
    *
-   * @example "EMAIL_ALREADY_USED"
+   * @example "ERROR_CODE"
    */
   code: string;
   status: HttpStatusCodeLiteral;
@@ -25,7 +25,7 @@ export interface BaseErrorResponse {
   /**
    * Error code for consuming applications
    *
-   * @example "EMAIL_ALREADY_USED"
+   * @example "ERROR_CODE"
    */
   code: string;
   /** Error message */

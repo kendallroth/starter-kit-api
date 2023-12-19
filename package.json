@@ -1,11 +1,13 @@
 {
   "name": "@kendallroth/starter-kit-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple API for `starter-kit-*` projects",
   "bin": {
     "sk-api": "./build/cli.js"
   },
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "exports": {
     "./shared": {
       "import": {
