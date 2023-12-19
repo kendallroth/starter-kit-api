@@ -8,14 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Deploy Swagger doc to GitHub Pages
 
 ### Changed
+- Improve build scripts
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+### Internal
+
+<hr />
+
+## `0.2.0` (2023-Dec-19)
+
+### Internal
+- Improve build/copy scripts
+- Deploy Swagger doc to GitHub Pages
+- Support live reloading in development (_with caveats_)
 
 <hr />
 

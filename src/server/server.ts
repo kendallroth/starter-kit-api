@@ -61,9 +61,11 @@ export const createServer = (configOverride: Partial<ServerConfig> = {}) => {
 
   // Server is only started upon creation if a port is provided
   if (config.port) {
-    app.listen(config.port, () =>
-      console.info(`⚡ Server listening at http://localhost:${config.port}`),
-    );
+    app.listen(config.port, () => {
+      const serverUrl = `http://localhost:${config.port}`;
+      console.info(`⚡ Server: ${serverUrl}`);
+      console.info(`📃 Docs:   ${serverUrl}/docs`);
+    });
   }
 
   return app;

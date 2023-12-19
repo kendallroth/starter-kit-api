@@ -441,7 +441,11 @@
 		"license": {
 			"name": "MIT"
 		},
-		"contact": {}
+		"contact": {
+			"name": "Kendall Roth",
+			"email": "kendall@kendallroth.ca",
+			"url": "https://github.com/kendallroth/starter-kit-api"
+		}
 	},
 	"openapi": "3.0.0",
 	"paths": {

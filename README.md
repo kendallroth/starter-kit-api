@@ -7,12 +7,12 @@ Simple API package for `starter-kit-*` projects.
 - ✔️ Implement simple API (with CLI wrapper) for `starter-kit-*` projects
 - ✔️ Provide utility functions for mimicking API behaviour in frontend mocking (via MSW, etc)
 - ✔️ Swagger documentation pages (via GitHub Actions)
-- ⌛ Handle development workflow (live reload either server or CLI)
-  - Maybe support two dev workflows (ie. `dev:server` and `dev:cli`)
+- ✔️ Development workflow (live reloading with `tsup`)
 - ⌛ Add API error codes for client localization
 - ⌛ Support writing API state to JSON file
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password
+- ⌛ Support `--no-auth` parameter for non-authenticated frontends (defaults to single user)
 - ⌛ Add client SDK utility/workflow?
 
 ## Usage
@@ -49,16 +49,21 @@ import { paginate } from "@kendallroth/starter-kit-api/shared";
 
 ## API Documentation
 
-[Swagger Doc](./docs/swagger.json)
+- [Swagger Doc (Site)](https://kendallroth.github.io/starter-kit-api/)
+- [Swagger Doc (JSON)](./docs/swagger.json)
 
 ## Development
 
 | Script | Description |
 |--------|-------------|
 | `build` | Bundle server/CLI and generate `tsoa` routes/schema
-| `dev` ⌛ | Run `tsoa` generators and dev server simultaneously (live reloads)
+| `dev` ⌛ | Compile/run `tsoa` generators and dev server (with live reloads)
 | `lint` | Check types and lint/format code
 | `local:install` | Build project and link locally with NPM
+| `local:run` | Run commands against local CLI build (requires `--` prefix)
+| `local:uninstall` | Remove global dev NPM link
+
+> **NOTE:** Unfortunately a workaround involving using `spawn` on the compiled CLI is required for live-reloading in development, due to import errors when attempting to use compiled files directly in `tsup` `onSuccess` callback.
 
 ### Build
 
