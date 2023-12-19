@@ -1,3 +1,4 @@
+import copyfiles, { type Options as CopyOptions } from "copyfiles";
 import { defineConfig } from "tsup";
 
 const production = process.env.NODE_ENV === "production";
@@ -18,7 +19,13 @@ export default defineConfig((_options) => {
     outDir: "build",
     onSuccess: async () => {
       // Copy Swagger docs after bundling (ie. build/, docs/)
-      require("./scripts/copy-files.js");
+      const swaggerPath = "./src/generated/swagger.json";
+      const options: CopyOptions = { up: 2 };
+      const noOp = () => {};
+
+      console.info("CLI Copying generated Swagger doc (after build)");
+      copyfiles([swaggerPath, "./build"], options, noOp);
+      copyfiles([swaggerPath, "./docs"], options, noOp);
     },
   };
 });
