@@ -43,7 +43,7 @@ export class ServerController extends Controller {
     // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
     const entities = (serializedDatabase() as any)[entity];
     if (!entities) {
-      throw new NotFoundError("Invalid list");
+      throw new NotFoundError("Invalid list", "INVALID_LIST");
     }
     return entities;
   }
@@ -56,11 +56,11 @@ export class ServerController extends Controller {
     // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
     const list = (serializedDatabase() as any)[entity];
     if (!list) {
-      throw new NotFoundError("Invalid list");
+      throw new NotFoundError("Invalid list", "INVALID_LIST");
     }
     const item = list[id];
     if (!item) {
-      throw new NotFoundError("Invalid entity");
+      throw new NotFoundError("Invalid entity", "INVALID_ENTITY");
     }
     return item;
   }

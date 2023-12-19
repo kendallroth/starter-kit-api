@@ -16,7 +16,7 @@ class AuthService {
   public authenticate(body: AccountLoginBody): AuthenticationResponse {
     const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
-      throw new UnauthorizedError("Invalid credentials");
+      throw new UnauthorizedError("Invalid credentials", "CREDENTIALS_INVALID");
     }
 
     const accessToken = this.generateAccessToken(account);
@@ -53,7 +53,7 @@ class AuthService {
   private getRefreshToken(token: string): RefreshTokenEntity {
     const refreshToken = mapToArray(database.data!.refreshTokens).find((t) => t.token === token);
     if (!refreshToken) {
-      throw new ClientError("Invalid refresh token");
+      throw new ClientError("Invalid refresh token", "REFRESH_TOKEN_INVALID");
     }
     return refreshToken;
   }
@@ -86,11 +86,11 @@ class AuthService {
   public refreshAuthToken(body: TokenRefreshBody): AuthenticationResponse {
     const refreshToken = this.getRefreshToken(body.refreshToken);
     if (!refreshToken) {
-      throw new UnauthorizedError("Invalid refresh token");
+      throw new UnauthorizedError("Invalid refresh token", "REFRESH_TOKEN_INVALID");
     }
 
     if (dayjs(refreshToken.expiresAt).isBefore()) {
-      throw new UnauthorizedError("Refresh token expired");
+      throw new UnauthorizedError("Refresh token expired", "REFRESH_TOKEN_EXPIRED");
     }
 
     const account = AccountService.getAccountById(refreshToken.accountId);
