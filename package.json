@@ -1,11 +1,7 @@
 {
   "name": "@kendallroth/starter-kit-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple API for `starter-kit-*` projects",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kendallroth/starter-kit-api.git"
-  },
   "bin": {
     "sk-api": "./build/cli.js"
   },
@@ -25,7 +21,7 @@
     }
   },
   "scripts": {
-    "build": "npm run build:generate && npm run build:bundle",
+    "build": "npm run build:generate && npm run build:bundle --",
     "build:bundle": "tsup",
     "build:generate": "tsoa spec-and-routes",
     "dev": "npm run build -- --watch",
@@ -33,8 +29,18 @@
     "lint:code": "biome check src/ --apply",
     "lint:types": "tsc",
     "local:install": "npm run build && npm link",
+    "local:run": "./build/cli.js",
     "local:uninstall": "npm rm --global @kendallroth/starter-kit-api",
     "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kendallroth/starter-kit-api.git"
+  },
+  "author": {
+    "email": "kendall@kendallroth.ca",
+    "name": "Kendall Roth",
+    "url": "https://github.com/kendallroth/starter-kit-api"
   },
   "license": "MIT",
   "dependencies": {

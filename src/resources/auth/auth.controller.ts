@@ -1,14 +1,17 @@
-import { Body, Controller, Post, Response, Route, Tags } from "tsoa";
+import { Body, Controller, Patch, Post, Request, Response, Route, Security, Tags } from "tsoa";
 
 import {
   ClientError,
   ClientErrorResponse,
   UnauthorizedError,
   UnauthorizedErrorResponse,
+  ValidationError,
+  ValidationErrorResponse,
 } from "#common/errors";
-import { AccountLoginBody } from "#resources/account/account.types";
+import { AuthenticatedRequest } from "#server/authentication";
 import { AuthService } from "./auth.service";
-import { AuthenticationResponse, TokenRefreshBody } from "./auth.types";
+import { AuthLoginBody, AuthenticationResponse, PasswordChangeBody, TokenRefreshBody } from "./auth.types";
+import { PasswordService } from "./password.service";
 
 @Route("auth")
 @Tags("Auth")
@@ -18,7 +21,7 @@ export class AuthController extends Controller {
    */
   @Post("login")
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
-  public async login(@Body() body: AccountLoginBody): Promise<AuthenticationResponse> {
+  public async login(@Body() body: AuthLoginBody): Promise<AuthenticationResponse> {
     return AuthService.authenticate(body);
   }
 
@@ -29,5 +32,19 @@ export class AuthController extends Controller {
   @Response<ClientErrorResponse>(ClientError.status, ClientError.message)
   public async refreshToken(@Body() body: TokenRefreshBody): Promise<AuthenticationResponse> {
     return AuthService.refreshAuthToken(body);
+  }
+
+  /**
+   * @summary Change user's password
+   */
+  @Patch("password/change")
+  @Security("jwt")
+  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
+  public async changePassword(
+    @Request() request: AuthenticatedRequest,
+    @Body() body: PasswordChangeBody,
+  ): Promise<void> {
+    return PasswordService.changePassword(request.user, body);
   }
 }

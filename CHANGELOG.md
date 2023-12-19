@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+### Internal
+
+<hr />
+
+## `0.2.0` (2023-Dec-19)
+
+### Added
+- Change password route
+
+### Internal
+- Improve build/copy scripts
+- Deploy Swagger doc to GitHub Pages
+- Support live reloading in development (_with caveats_)
+
 <hr />
 
 ## `0.1.0` (2023-Dec-13)

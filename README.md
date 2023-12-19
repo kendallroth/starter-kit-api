@@ -4,16 +4,16 @@ Simple API package for `starter-kit-*` projects.
 
 ## Features
 
-- ✔️ Implement simple API (with CLI wrapper) for `starter-kit-*` projects
-- ✔️ Provide utility functions for mimicking API behaviour in frontend mocking (via MSW, etc)
+- ✔️ Simple Express API (with CLI wrapper) for `starter-kit-*` projects
+- ✔️ Utility functions for mimicking API behaviour (ie. in frontend mocking, via MSW, etc)
+- ✔️ API error codes (for client localization)
 - ✔️ Swagger documentation pages (via GitHub Actions)
-- ⌛ Handle development workflow (live reload either server or CLI)
-  - Maybe support two dev workflows (ie. `dev:server` and `dev:cli`)
-- ⌛ Add API error codes for client localization
+- ✔️ Development workflow (live reloading with `tsup`)
 - ⌛ Support writing API state to JSON file
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password
-- ⌛ Add client SDK utility/workflow?
+- ❓ Support `--no-auth` parameter for non-authenticated frontends (defaults to single user)?
+- ❓ Add client SDK utility/workflow?
 
 ## Usage
 
@@ -49,16 +49,27 @@ import { paginate } from "@kendallroth/starter-kit-api/shared";
 
 ## API Documentation
 
-[Swagger Doc](./docs/swagger.json)
+- [Swagger Doc (Site)](https://kendallroth.github.io/starter-kit-api/)
+- [Swagger Doc (JSON)](./docs/swagger.json)
 
 ## Development
 
 | Script | Description |
 |--------|-------------|
 | `build` | Bundle server/CLI and generate `tsoa` routes/schema
-| `dev` ⌛ | Run `tsoa` generators and dev server simultaneously (live reloads)
+| `dev` ⌛ | Compile/run `tsoa` generators and dev server (with live reloads)
 | `lint` | Check types and lint/format code
 | `local:install` | Build project and link locally with NPM
+| `local:run` | Run commands against local CLI build (requires `--` prefix)
+| `local:uninstall` | Remove global dev NPM link
+
+### Live Reloading
+
+Live reloading in development is accomplished through `tsup`'s `onSuccess` callback workflow. However, there are several caveats associated with reloading!
+
+When code changes are detected, `tsoa` must be run **before** rebundling the CLI in order to have the generated route file present for bundling! This is accomplished by using the `onSuccess` callback cleanup function to regenerate `tsoa` files when changes are detected, _before_ initiating the rebuild and next `onSuccess` callback! Once a rebuild has completed, the generated `tsoa` files must be copied into the necessary directories (ie `build`, `docs`, etc). Finally, the server can be restarted (via bundled CLI). Unfortunately, due to module import errors (regardless of CJS/ESM), the bundled server cannot be imported inside the `onSuccess` callback. Instead, a workaround using Node's process `spawn` function handles stopping the previous server (in cleanup) and starting again. This is less than ideal, but unfortunately required to support live reloading.
+
+> **NOTE:** Unfortunately a workaround involving using `spawn` on the compiled CLI is required for live-reloading in development, due to import errors when attempting to use compiled files directly in `tsup` `onSuccess` callback.
 
 ### Build
 

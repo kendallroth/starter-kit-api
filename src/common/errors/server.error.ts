@@ -5,14 +5,15 @@ import { BaseError, BaseErrorResponse } from "./base.error";
 /** Error to indicate unknown server issues */
 export class ServerError extends BaseError {
   static status = HttpStatus.INTERNAL_SERVER_ERROR;
+  static code = "SERVER_ERROR";
   static message = "Server error";
 
-  constructor(message?: string) {
-    super(message ?? ServerError.message, ServerError.status);
+  constructor(message?: string, code?: string) {
+    super(code ?? ServerError.code, message ?? ServerError.message, ServerError.status);
   }
 
   toResponse(): ServerErrorResponse {
-    return pick(this, ["message"]);
+    return pick(this, ["code", "message"]);
   }
 }
 

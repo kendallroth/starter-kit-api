@@ -1,5 +1,16 @@
 import { AccountResponse } from "#resources/account/account.types";
 
+export interface AuthLoginBody {
+  /** @example "dev@example.com" */
+  email: string;
+  /**
+   * @format password
+   * @minLength 8
+   * @example "Passw0rd!"
+   */
+  password: string;
+}
+
 export interface AuthenticationResponse {
   account: AccountResponse;
   /**
@@ -13,4 +24,14 @@ export interface AuthenticationResponse {
 
 export interface TokenRefreshBody {
   refreshToken: string;
+}
+
+export interface PasswordChangeBody {
+  /** @format password */
+  oldPassword: string;
+  /**
+   * @format password
+   * @minLength 8
+   */
+  newPassword: string;
 }

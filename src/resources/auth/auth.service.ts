@@ -5,18 +5,18 @@ import { v4 as uuid } from "uuid";
 import { ClientError, UnauthorizedError } from "#common/errors";
 import { mapToArray } from "#common/utilities";
 import { AccountService } from "#resources/account/account.service";
-import { AccountLoginBody, AccountResponse } from "#resources/account/account.types";
+import { AccountResponse } from "#resources/account/account.types";
 import { serverConfig } from "#server/config";
 import { database } from "#server/database";
 import { RefreshTokenEntity, stubRefreshToken } from "./auth.entity";
-import { AuthenticationResponse, TokenRefreshBody } from "./auth.types";
+import { AuthLoginBody, AuthenticationResponse, TokenRefreshBody } from "./auth.types";
 
 class AuthService {
   /** Authenticate account credentials */
-  public authenticate(body: AccountLoginBody): AuthenticationResponse {
+  public authenticate(body: AuthLoginBody): AuthenticationResponse {
     const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
-      throw new UnauthorizedError("Invalid credentials");
+      throw new UnauthorizedError("Invalid credentials", "CREDENTIALS_INVALID");
     }
 
     const accessToken = this.generateAccessToken(account);
@@ -53,7 +53,7 @@ class AuthService {
   private getRefreshToken(token: string): RefreshTokenEntity {
     const refreshToken = mapToArray(database.data!.refreshTokens).find((t) => t.token === token);
     if (!refreshToken) {
-      throw new ClientError("Invalid refresh token");
+      throw new ClientError("Invalid refresh token", "REFRESH_TOKEN_INVALID");
     }
     return refreshToken;
   }
@@ -86,11 +86,11 @@ class AuthService {
   public refreshAuthToken(body: TokenRefreshBody): AuthenticationResponse {
     const refreshToken = this.getRefreshToken(body.refreshToken);
     if (!refreshToken) {
-      throw new UnauthorizedError("Invalid refresh token");
+      throw new UnauthorizedError("Invalid refresh token", "REFRESH_TOKEN_INVALID");
     }
 
     if (dayjs(refreshToken.expiresAt).isBefore()) {
-      throw new UnauthorizedError("Refresh token expired");
+      throw new UnauthorizedError("Refresh token expired", "REFRESH_TOKEN_EXPIRED");
     }
 
     const account = AccountService.getAccountById(refreshToken.accountId);

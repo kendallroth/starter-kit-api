@@ -58,11 +58,18 @@
 			},
 			"UnauthorizedErrorResponse": {
 				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
 					"message": {
-						"type": "string"
+						"type": "string",
+						"description": "Error message"
 					}
 				},
 				"required": [
+					"code",
 					"message"
 				],
 				"type": "object",
@@ -93,8 +100,14 @@
 			},
 			"ValidationErrorResponse": {
 				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
 					"message": {
-						"type": "string"
+						"type": "string",
+						"description": "Error message"
 					},
 					"fields": {
 						"properties": {},
@@ -105,6 +118,7 @@
 					}
 				},
 				"required": [
+					"code",
 					"message",
 					"fields"
 				],
@@ -133,13 +147,17 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"AccountLoginBody": {
+			"AuthLoginBody": {
 				"properties": {
 					"email": {
-						"type": "string"
+						"type": "string",
+						"example": "dev@example.com"
 					},
 					"password": {
-						"type": "string"
+						"type": "string",
+						"example": "Passw0rd!",
+						"format": "password",
+						"minLength": 8
 					}
 				},
 				"required": [
@@ -151,11 +169,18 @@
 			},
 			"ClientErrorResponse": {
 				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
 					"message": {
-						"type": "string"
+						"type": "string",
+						"description": "Error message"
 					}
 				},
 				"required": [
+					"code",
 					"message"
 				],
 				"type": "object",
@@ -169,6 +194,25 @@
 				},
 				"required": [
 					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PasswordChangeBody": {
+				"properties": {
+					"oldPassword": {
+						"type": "string",
+						"format": "password"
+					},
+					"newPassword": {
+						"type": "string",
+						"format": "password",
+						"minLength": 8
+					}
+				},
+				"required": [
+					"oldPassword",
+					"newPassword"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -354,11 +398,18 @@
 			},
 			"NotFoundErrorResponse": {
 				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
 					"message": {
-						"type": "string"
+						"type": "string",
+						"description": "Error message"
 					}
 				},
 				"required": [
+					"code",
 					"message"
 				],
 				"type": "object",
@@ -441,7 +492,11 @@
 		"license": {
 			"name": "MIT"
 		},
-		"contact": {}
+		"contact": {
+			"name": "Kendall Roth",
+			"email": "kendall@kendallroth.ca",
+			"url": "https://github.com/kendallroth/starter-kit-api"
+		}
 	},
 	"openapi": "3.0.0",
 	"paths": {
@@ -561,7 +616,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AccountLoginBody"
+								"$ref": "#/components/schemas/AuthLoginBody"
 							}
 						}
 					}
@@ -605,6 +660,56 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/TokenRefreshBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/password/change": {
+			"patch": {
+				"operationId": "ChangePassword",
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Change user's password",
+				"tags": [
+					"Auth"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PasswordChangeBody"
 							}
 						}
 					}

@@ -57,7 +57,7 @@ class AccountService {
   public createAccount = (body: AccountCreateBody): AuthenticationResponse => {
     const existingAccount = this.getAccountByEmail(body.email);
     if (existingAccount) {
-      throw new ClientError("Account already exists");
+      throw new ClientError("Account already exists", "ACCOUNT_ALREADY_EXISTS");
     }
 
     const account = stubAccount({
