@@ -31,16 +31,18 @@ npm install @kendallroth/starter-kit-api
 Once installed, the starter kit API can be used either with `npx` or as a project NPM script.
 
 ```sh
-sk-api --port 3030
+sk-api --persist ./database.json
 ```
 
 ```json
 {
   "scripts": {
-    "api": "sk-api --port 3030"
+    "api": "sk-api --persist './database.json'"
   }
 }
 ```
+
+> **NOTE:** By default the server will use an in-memory database, which will be reset with server restarts. The database can also be persisted to a JSON file with the `--persist <path>` argument.
 
 #### Documentation
 
