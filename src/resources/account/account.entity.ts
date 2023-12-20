@@ -1,4 +1,4 @@
-import { BaseEntity, stubEntity } from "#common/entities";
+import { BaseEntity, getEntityStub } from "#common/entities";
 import { Timestamp } from "#common/types";
 
 export interface AccountEntity extends BaseEntity {
@@ -11,4 +11,6 @@ export interface AccountEntity extends BaseEntity {
   verifiedAt?: Timestamp | null;
 }
 
-export const stubAccount = stubEntity<AccountEntity>;
+export const stubAccount = getEntityStub<AccountEntity>({
+  verifiedAt: null,
+});

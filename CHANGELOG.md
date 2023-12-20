@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optional database persistence (via `--persist <path>` flag)
 
 ### Changed
+- Improve entity stubbing to initialize nullable fields
 
 ### Deprecated
 

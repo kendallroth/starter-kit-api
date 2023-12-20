@@ -1,4 +1,4 @@
-import { BaseEntity, stubEntity } from "#common/entities";
+import { BaseEntity, getEntityStub } from "#common/entities";
 import { Timestamp, UUID } from "#common/types";
 
 export interface TodoEntity extends BaseEntity {
@@ -12,4 +12,9 @@ export interface TodoEntity extends BaseEntity {
   starredAt?: Timestamp | null;
 }
 
-export const stubTodo = stubEntity<TodoEntity>;
+export const stubTodo = getEntityStub<TodoEntity>({
+  completedAt: null,
+  description: null,
+  dueAt: null,
+  starredAt: null,
+});

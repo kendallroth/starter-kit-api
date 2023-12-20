@@ -43,7 +43,12 @@
 						"description": "When entity was created (ISO timestamp)"
 					},
 					"updatedAt": {
-						"$ref": "#/components/schemas/Timestamp",
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true,
 						"description": "When entity was last updated (ISO timestamp)"
 					}
 				},
@@ -227,7 +232,12 @@
 						"description": "When entity was created (ISO timestamp)"
 					},
 					"updatedAt": {
-						"$ref": "#/components/schemas/Timestamp",
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true,
 						"description": "When entity was last updated (ISO timestamp)"
 					},
 					"accountId": {
