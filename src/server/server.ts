@@ -1,5 +1,6 @@
 import express, { Request, Response, json, urlencoded } from "express";
-import swaggerUi from "swagger-ui-express";
+import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
+import type { PartialDeep } from "type-fest";
 
 // NOTE: Patches Express routes to support errors in async flows
 import "express-async-errors";
@@ -7,14 +8,18 @@ import "express-async-errors";
 import { RegisterRoutes as RegisterGeneratedRoutes } from "../generated/routes";
 import { requestLogger, routeDelayHandler, routeErrorHandler } from "../middleware";
 import { type ServerConfig, setServerConfig } from "./config";
+import { createDatabase } from "./database";
 
 /**
  * Create API server
  *
  * NOTE: Server is only started upon creation if a port is provided!
  */
-export const createServer = (configOverride: Partial<ServerConfig> = {}) => {
+export const createServer = async (configOverride: PartialDeep<ServerConfig> = {}) => {
   const config = setServerConfig(configOverride);
+
+  // Configure global database (must be before any other references to database!)
+  await createDatabase(config.persist);
 
   const app = express();
 
@@ -26,18 +31,33 @@ export const createServer = (configOverride: Partial<ServerConfig> = {}) => {
   app.use(json());
   app.use(
     requestLogger({
-      disabled: !config.logging,
+      disabled: !config.logging.enabled,
+      events: {
+        request: config.logging.logRequests,
+        response: true,
+      },
       ignore: ["/docs"],
     }),
   );
 
   // Generated Swagger file is included in bundle during `build` step
   const swaggerPublicPath = "./swagger.json";
-  const swaggerDoc = swaggerUi.generateHTML(require(swaggerPublicPath));
+  const swaggerOptions: SwaggerUiOptions = {
+    // customJsStr: "",
+    swaggerOptions: {
+      // Expansion levels for "Schema" section models (-1 hides, 0 collapses, 1 default)
+      defaultModelsExpandDepth: 2,
+      // Expansion levels for operation "Schema" models (-1 hides, 0 collapses, 1 default, 2 expands)
+      defaultModelExpandDepth: 2,
+      // NOTE: Tag filtering currently appears broken 🤷
+      filter: true,
+    },
+  };
+  const swaggerDoc = swaggerUi.generateHTML(require(swaggerPublicPath), swaggerOptions);
   app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
     // Import Swagger doc for every request in development, but only on startup in production
     if (config.development) {
-      return res.send(swaggerUi.generateHTML(require(swaggerPublicPath)));
+      return res.send(swaggerUi.generateHTML(require(swaggerPublicPath), swaggerOptions));
     }
     return res.send(swaggerDoc);
   });

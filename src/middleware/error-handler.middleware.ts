@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { ValidateError } from "tsoa";
 
-import { BaseError } from "#common/errors";
+import { BaseError, ServerError, ValidationError } from "#common/errors";
 
 /** Error handler, converting thrown errors into suitable shape for clients */
 export const routeErrorHandler = (
@@ -10,23 +10,24 @@ export const routeErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
+  // TSOA validation errors are thrown when failing type annotation checks
   if (err instanceof ValidateError) {
     return res.status(422).json({
-      message: "Validation failed",
-      details: err.fields,
+      code: ValidationError.code,
+      message: ValidationError.message,
+      fields: err.fields,
     });
   }
 
   if (err instanceof BaseError) {
-    return res.status(err.status).json({
-      message: err.message,
-    });
+    return res.status(err.status).json(err.toResponse());
   }
 
   if (err instanceof Error) {
     console.error(err);
-    return res.status(500).json({
-      message: "Server error",
+    return res.status(ServerError.status).json({
+      code: ServerError.code,
+      message: ServerError.message,
     });
   }
 

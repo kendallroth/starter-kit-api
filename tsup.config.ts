@@ -40,8 +40,10 @@ export default defineConfig((options) => {
       if (options.watch) {
         console.info("API Restarting dev server");
 
+        const usePersistence = process.env.PERSIST === "true";
+
         // Start the compiled CLI with default arguments (sufficient for dev reloads)
-        serverProcess = spawn("./build/cli.js");
+        serverProcess = spawn("./build/cli.js", usePersistence ? ["--persist", "./database.json"] : []);
         serverProcess.stdout.on("data", (data) => {
           console.info(`API ${data.toString().trim()}`);
         });

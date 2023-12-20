@@ -54,7 +54,7 @@ class AccountService {
    *
    * @throws Error if account already exists with email
    */
-  public createAccount = (body: AccountCreateBody): AuthenticationResponse => {
+  public createAccount = async (body: AccountCreateBody): Promise<AuthenticationResponse> => {
     const existingAccount = this.getAccountByEmail(body.email);
     if (existingAccount) {
       throw new ClientError("Account already exists", "ACCOUNT_ALREADY_EXISTS");

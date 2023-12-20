@@ -58,31 +58,31 @@ class TodoService {
     }, {} as TodoStatsResponse);
   }
 
-  public createTodo(account: AccountEntity, body: TodoCreateBody): TodoEntity {
+  public async createTodo(account: AccountEntity, body: TodoCreateBody): Promise<TodoEntity> {
     const todo = stubTodo({
       accountId: account.id,
       ...body,
     });
 
     database.data?.todos.set(todo.id, todo);
-    database.write();
+    await database.write();
 
     return todo;
   }
 
-  public deleteTodo(account: AccountEntity, id: string): TodoEntity {
+  public async deleteTodo(account: AccountEntity, id: string): Promise<TodoEntity> {
     const todo = this.getTodoById(id);
     if (!todo || todo.accountId !== account.id) {
       throw new NotFoundError();
     }
 
     database.data?.todos.delete(id);
-    database.write();
+    await database.write();
 
     return todo;
   }
 
-  public updateTodo(account: AccountEntity, id: string, body: TodoUpdateBody): TodoEntity {
+  public async updateTodo(account: AccountEntity, id: string, body: TodoUpdateBody): Promise<TodoEntity> {
     const todo = this.getTodoById(id);
     if (!todo || todo.accountId !== account.id) {
       throw new NotFoundError();
@@ -94,7 +94,7 @@ class TodoService {
     };
 
     database.data?.todos.set(todo.id, updatedTodo);
-    database.write();
+    await database.write();
 
     return updatedTodo;
   }

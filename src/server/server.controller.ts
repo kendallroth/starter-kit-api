@@ -1,13 +1,7 @@
 import { Controller, Delete, Get, Path, Route, Tags } from "tsoa";
 
 import { NotFoundError } from "#common/errors";
-import { database, seededData } from "#server/database";
-
-const serializedDatabase = () =>
-  Object.entries(database.data!).reduce((accum, [key, value]) => {
-    // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
-    return { ...accum, [key]: Object.fromEntries(value as any) };
-  }, {});
+import { database, getDefaultData, serializeDatabase } from "#server/database";
 
 @Route("/")
 @Tags("Api")
@@ -23,8 +17,9 @@ export class ServerController extends Controller {
   /** @summary Reset database */
   @Delete("db/reset")
   public async resetDatabase() {
-    database.data = { ...seededData };
-    database.write();
+    database.data = getDefaultData();
+    await database.write();
+    console.warn("⚠ Database has been reset!");
   }
 
   /**
@@ -32,7 +27,8 @@ export class ServerController extends Controller {
    */
   @Get("db")
   public async viewDatabase() {
-    return serializedDatabase();
+    // biome-ignore lint/suspicious/noExplicitAny: Cannot return `Database` type (TSOA issue)
+    return serializeDatabase(database.data!) as any;
   }
 
   /**
@@ -41,7 +37,7 @@ export class ServerController extends Controller {
   @Get("db/{entity}")
   public async viewDatabaseEntityList(@Path("entity") entity: string) {
     // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
-    const entities = (serializedDatabase() as any)[entity];
+    const entities = (serializeDatabase(database.data!) as any)[entity];
     if (!entities) {
       throw new NotFoundError("Invalid list", "INVALID_LIST");
     }
@@ -54,7 +50,7 @@ export class ServerController extends Controller {
   @Get("db/{entity}/{id}")
   public async viewDatabaseEntity(@Path("entity") entity: string, @Path("id") id: string) {
     // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
-    const list = (serializedDatabase() as any)[entity];
+    const list = (serializeDatabase(database.data!) as any)[entity];
     if (!list) {
       throw new NotFoundError("Invalid list", "INVALID_LIST");
     }

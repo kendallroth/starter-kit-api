@@ -20,6 +20,12 @@
         // url: "https://github.com/kendallroth/starter-kit-api/tree/main/src/generated/swagger.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
+        // Expansion levels for "Schema" section models (-1 hides, 0 collapses, 1 default)
+        defaultModelsExpandDepth: 2,
+        // Expansion levels for operation "Schema" models (-1 hides, 0 collapses, 1 default, 2 expands)
+        defaultModelExpandDepth: 2,
+        // NOTE: Tag filtering currently appears broken 🤷
+        filter: true,
         presets: [
           SwaggerUIBundle.presets.apis,
           SwaggerUIBundle.SwaggerUIStandalonePreset

@@ -9,11 +9,14 @@ Simple API package for `starter-kit-*` projects.
 - ✔️ API error codes (for client localization)
 - ✔️ Swagger documentation pages (via GitHub Actions)
 - ✔️ Development workflow (live reloading with `tsup`)
-- ⌛ Support writing API state to JSON file
+- ✔️ Optional persistence of API state (with JSON file)
+- ⌛ Use FakerJS for consistent seed data (UUIDs, timestamps, etc)
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password
+- ⌛ Implement API localization
 - ❓ Support `--no-auth` parameter for non-authenticated frontends (defaults to single user)?
 - ❓ Add client SDK utility/workflow?
+- ❓ Separate CLI project (`starter-kit-cli`) referencing API
 
 ## Usage
 
@@ -28,15 +31,33 @@ npm install @kendallroth/starter-kit-api
 Once installed, the starter kit API can be used either with `npx` or as a project NPM script.
 
 ```sh
-sk-api --port 3030
+sk-api --persist ./database.json
 ```
 
 ```json
 {
   "scripts": {
-    "api": "sk-api --port 3030"
+    "api": "sk-api --persist './database.json'"
   }
 }
+```
+
+> **NOTE:** By default the server will use an in-memory database, which will be reset with server restarts. The database can also be persisted to a JSON file with the `--persist <path>` argument.
+
+#### Documentation
+
+```
+Usage: sk-api [options]
+
+Simple API for `starter-kit-*` projects
+
+Options:
+  -v, --version        Display CLI version
+  --persist <path>     Database persistence file path (JSON)
+  --no-logs            Whether request/response logs are disabled
+  --log-requests       Whether requests are logged (alongside responses) (default: false)
+  -p, --port <number>  Server port (default: 3001)
+  -h, --help           Display help for command
 ```
 
 ### Shared
