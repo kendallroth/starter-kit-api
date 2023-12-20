@@ -13,11 +13,16 @@ export interface Database {
   refreshTokens: Map<string, RefreshTokenEntity>;
 }
 
-export const seededData: Database = {
-  accounts: seededAccountMap,
-  todos: seededTodoMap,
+/**
+ * Get a copy of default data
+ *
+ * Clones all data to avoid mutations!
+ */
+export const getDefaultData = (): Database => ({
+  accounts: new Map(seededAccountMap),
+  todos: new Map(seededTodoMap),
   refreshTokens: new Map(),
-};
+})
 
 // biome-ignore lint/suspicious/noExplicitAny: Serialized database needs no type safety
 type SerializedDatabase = Record<string, any>;
@@ -35,7 +40,7 @@ export const deSerializeDatabase = (anyData: Record<string, object>): Database =
       ...accum,
       [key]: new Map(Object.entries(value))
     }
-  }, { ...seededData });
+  }, getDefaultData());
 
 /** Custom database adapter for top-level table `Map`s */
 class JsonMapAdapter<Database> implements Adapter<Database> {
@@ -77,7 +82,7 @@ export const createDatabase = async (persistencePath?: string) => {
   // Read existing database (if any)
   await localDatabase.read();
 
-  localDatabase.data ||= { ...seededData };
+  localDatabase.data ||= getDefaultData();
   await localDatabase.write();
 
   database = localDatabase;

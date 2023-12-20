@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Path, Route, Tags } from "tsoa";
 
 import { NotFoundError } from "#common/errors";
-import { database, seededData, serializeDatabase } from "#server/database";
+import { database, getDefaultData, serializeDatabase } from "#server/database";
 
 @Route("/")
 @Tags("Api")
@@ -17,8 +17,9 @@ export class ServerController extends Controller {
   /** @summary Reset database */
   @Delete("db/reset")
   public async resetDatabase() {
-    database.data = { ...seededData };
+    database.data = getDefaultData();
     await database.write();
+    console.warn("⚠ Database has been reset!");
   }
 
   /**

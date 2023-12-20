@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - API error responses were not fully defined
 - Set `NODE_ENV` to `production` when bundling for NPM
+- Database reset was referencing mutated values (not original)
 
 <hr />
 
