@@ -33,7 +33,6 @@ export const requestLogger =
     }
 
     const requestLog = `[Request]  ${method} ${url}`;
-
     console.info(requestLog);
 
     const requestTimeStart = new Date().getTime();

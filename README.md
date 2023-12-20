@@ -39,6 +39,20 @@ sk-api --port 3030
 }
 ```
 
+#### Documentation
+
+```
+Usage: sk-api [options]
+
+Simple API for `starter-kit-*` projects
+
+Options:
+  -v, --version        output the version number
+  --no-logs            Whether request logs are disabled
+  -p, --port <number>  Server port (default: 3001)
+  -h, --help           display help for command
+```
+
 ### Shared
 
 There are some "shared" utilities that can be utilized by consuming projects for purposes of API/test mocks that mimic actual API responses/utilities.

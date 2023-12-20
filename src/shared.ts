@@ -1,3 +1,7 @@
+/*
+ * Entrypoint for utility functions usable in server as well as consuming apps (for mocking, etc).
+ */
+
 export type {
   PaginatedResult,
   Pagination,

@@ -22,7 +22,8 @@ const parseIntOption = (value: string): number => {
 program
   .name("sk-api")
   .description("Simple API for `starter-kit-*` projects")
-  .version(version, "-v, --version")
+  .helpOption("-h, --help", "Display help for command")
+  .version(version, "-v, --version", "Display CLI version")
   .option("--no-logs", "Whether request logs are disabled")
   .option("-p, --port <number>", "Server port", parseIntOption, 3001)
   .action((options: SkApiOptions) => {
