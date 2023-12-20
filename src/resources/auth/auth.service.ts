@@ -13,14 +13,14 @@ import { AuthLoginBody, AuthenticationResponse, TokenRefreshBody } from "./auth.
 
 class AuthService {
   /** Authenticate account credentials */
-  public authenticate(body: AuthLoginBody): AuthenticationResponse {
+  public async authenticate(body: AuthLoginBody): Promise<AuthenticationResponse> {
     const account = AccountService.getAccountByCredentials(body.email, body.password);
     if (!account) {
       throw new UnauthorizedError("Invalid credentials", "CREDENTIALS_INVALID");
     }
 
-    const accessToken = this.generateAccessToken(account);
-    const refreshToken = this.createRefreshToken(account);
+    const accessToken = await this.generateAccessToken(account);
+    const refreshToken = await this.createRefreshToken(account);
 
     return {
       account,
@@ -29,7 +29,7 @@ class AuthService {
     };
   }
 
-  private generateAccessToken(account: AccountResponse): string {
+  private async generateAccessToken(account: AccountResponse): Promise<string> {
     return jwt.sign(
       {
         accountId: account.id,
@@ -41,11 +41,11 @@ class AuthService {
   }
 
   /** Clean up any non-valid or expired refresh tokens */
-  private cleanupRefreshTokens() {
+  private async cleanupRefreshTokens() {
     const refreshTokens = mapToArray(database.data!.refreshTokens);
     for (const token of refreshTokens) {
       if (dayjs(token.expiresAt).isBefore()) {
-        this.deleteRefreshToken(token.id);
+        await this.deleteRefreshToken(token.id);
       }
     }
   }
@@ -58,7 +58,7 @@ class AuthService {
     return refreshToken;
   }
 
-  private createRefreshToken(account: AccountResponse): RefreshTokenEntity {
+  private async createRefreshToken(account: AccountResponse): Promise<RefreshTokenEntity> {
     const tokenString = `${uuid()}${uuid()}`.replace(/-/g, "");
 
     // Ensure invalid refresh tokens are cleaned up
@@ -71,19 +71,19 @@ class AuthService {
     });
 
     database.data?.refreshTokens.set(refreshToken.id, refreshToken);
-    database.write();
+    await database.write();
 
     return refreshToken;
   }
 
-  private deleteRefreshToken(id: string) {
+  private async deleteRefreshToken(id: string) {
     const refreshTokensRef = database.data!.refreshTokens;
     refreshTokensRef.delete(id);
-    database.write();
+    await database.write();
   }
 
   /** Exchange refresh token for new access token */
-  public refreshAuthToken(body: TokenRefreshBody): AuthenticationResponse {
+  public async refreshAuthToken(body: TokenRefreshBody): Promise<AuthenticationResponse> {
     const refreshToken = this.getRefreshToken(body.refreshToken);
     if (!refreshToken) {
       throw new UnauthorizedError("Invalid refresh token", "REFRESH_TOKEN_INVALID");
@@ -98,8 +98,8 @@ class AuthService {
       throw new UnauthorizedError();
     }
 
-    const accessToken = this.generateAccessToken(account);
-    const newRefreshToken = this.createRefreshToken(account);
+    const accessToken = await this.generateAccessToken(account);
+    const newRefreshToken = await this.createRefreshToken(account);
 
     // Remove current refresh token, as well as any other expired ones
     this.deleteRefreshToken(refreshToken.id);

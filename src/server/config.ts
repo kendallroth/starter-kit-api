@@ -16,6 +16,12 @@ export interface ServerConfig {
   development: boolean;
   /** Whether request logging is enabled */
   logging: boolean;
+  /**
+   * Database persistence file path (JSON).
+   *
+   * If not set, defaults to using in-memory database adapter.
+   */
+  persist?: string;
   /** Whether server is running in production */
   production: boolean;
   /** Server port (auto-runs if provided) */

@@ -3,10 +3,15 @@
 import { InvalidArgumentError, program } from "commander";
 
 import { createServer } from "#server/server";
+import { pick } from "./shared";
 const { version } = require("../package.json");
 
 interface SkApiOptions {
+  /** Whether request logs are disabled */
   logs?: boolean;
+  /** Database file path for API data persistence */
+  persist?: string;
+  /** Server port */
   port?: number;
 }
 
@@ -24,12 +29,12 @@ program
   .description("Simple API for `starter-kit-*` projects")
   .helpOption("-h, --help", "Display help for command")
   .version(version, "-v, --version", "Display CLI version")
+  .option("--persist <path>", "Database persistence file path (JSON)")
   .option("--no-logs", "Whether request logs are disabled")
   .option("-p, --port <number>", "Server port", parseIntOption, 3001)
   .action((options: SkApiOptions) => {
     createServer({
-      logging: options.logs,
-      port: options.port,
+      ...pick(options, ["logs", "persist", "port"])
     });
   });
 

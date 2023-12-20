@@ -25,6 +25,7 @@
     "build:bundle": "tsup",
     "build:generate": "tsoa spec-and-routes",
     "dev": "npm run build -- --watch",
+    "dev:persist": "PERSIST=true npm run dev",
     "lint": "npm run lint:code && npm run lint:types",
     "lint:code": "biome check src/ --apply",
     "lint:types": "tsc",

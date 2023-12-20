@@ -3,6 +3,9 @@ build
 .tsbuildinfo
 .turbo
 
+# Development database
+database.json
+
 # Dependencies
 node_modules
 

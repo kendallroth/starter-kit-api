@@ -7,14 +7,18 @@ import "express-async-errors";
 import { RegisterRoutes as RegisterGeneratedRoutes } from "../generated/routes";
 import { requestLogger, routeDelayHandler, routeErrorHandler } from "../middleware";
 import { type ServerConfig, setServerConfig } from "./config";
+import { createDatabase } from "./database";
 
 /**
  * Create API server
  *
  * NOTE: Server is only started upon creation if a port is provided!
  */
-export const createServer = (configOverride: Partial<ServerConfig> = {}) => {
+export const createServer = async (configOverride: Partial<ServerConfig> = {}) => {
   const config = setServerConfig(configOverride);
+
+  // Configure global database (must be before any other references to database!)
+  await createDatabase(config.persist);
 
   const app = express();
 

@@ -4,7 +4,7 @@ import { database } from "#server/database";
 import { PasswordChangeBody } from "./auth.types";
 
 class PasswordService {
-  public changePassword(account: AccountEntity, body: PasswordChangeBody): void {
+  public async changePassword(account: AccountEntity, body: PasswordChangeBody): Promise<void> {
     if (account.password !== body.oldPassword) {
       throw new UnauthorizedError("Invalid credentials", "CREDENTIALS_INVALID");
     }
@@ -21,7 +21,7 @@ class PasswordService {
       password: body.newPassword,
     };
     database.data?.accounts.set(updatedAccount.id, updatedAccount);
-    database.write();
+    await database.write();
   }
 }
 

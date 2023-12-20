@@ -9,11 +9,14 @@ Simple API package for `starter-kit-*` projects.
 - ✔️ API error codes (for client localization)
 - ✔️ Swagger documentation pages (via GitHub Actions)
 - ✔️ Development workflow (live reloading with `tsup`)
-- ⌛ Support writing API state to JSON file
+- ✔️ Optional persistence of API state (with JSON file)
+- ⌛ Use FakerJS for consistent seed data (UUIDs, timestamps, etc)
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password
+- ⌛ Implement API localization
 - ❓ Support `--no-auth` parameter for non-authenticated frontends (defaults to single user)?
 - ❓ Add client SDK utility/workflow?
+- ❓ Separate CLI project (`starter-kit-cli`) referencing API
 
 ## Usage
 
