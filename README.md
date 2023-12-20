@@ -50,10 +50,12 @@ Usage: sk-api [options]
 Simple API for `starter-kit-*` projects
 
 Options:
-  -v, --version        output the version number
-  --no-logs            Whether request logs are disabled
+  -v, --version        Display CLI version
+  --persist <path>     Database persistence file path (JSON)
+  --no-logs            Whether request/response logs are disabled
+  --log-requests       Whether requests are logged (alongside responses) (default: false)
   -p, --port <number>  Server port (default: 3001)
-  -h, --help           display help for command
+  -h, --help           Display help for command
 ```
 
 ### Shared

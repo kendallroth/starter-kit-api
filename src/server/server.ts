@@ -1,5 +1,6 @@
 import express, { Request, Response, json, urlencoded } from "express";
 import swaggerUi from "swagger-ui-express";
+import type { PartialDeep } from "type-fest";
 
 // NOTE: Patches Express routes to support errors in async flows
 import "express-async-errors";
@@ -14,7 +15,7 @@ import { createDatabase } from "./database";
  *
  * NOTE: Server is only started upon creation if a port is provided!
  */
-export const createServer = async (configOverride: Partial<ServerConfig> = {}) => {
+export const createServer = async (configOverride: PartialDeep<ServerConfig> = {}) => {
   const config = setServerConfig(configOverride);
 
   // Configure global database (must be before any other references to database!)
@@ -30,7 +31,11 @@ export const createServer = async (configOverride: Partial<ServerConfig> = {}) =
   app.use(json());
   app.use(
     requestLogger({
-      disabled: !config.logging,
+      disabled: !config.logging.enabled,
+      events: {
+        request: config.logging.logRequests,
+        response: true,
+      },
       ignore: ["/docs"],
     }),
   );

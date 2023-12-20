@@ -5,6 +5,19 @@ import { AuthenticatedRequest } from "#server/authentication";
 interface RequestLoggerOptions {
   /** Whether request logging is disabled */
   disabled?: boolean;
+  /** Which events should be logged */
+  events?: {
+    /**
+     * Whether requests should be logged
+     * @default false
+     */
+    request?: boolean;
+    /**
+     * Whether responses should be logged
+     * @default true
+     */
+    response?: boolean;
+  };
   /**
    * Route paths to ignore logs
    *
@@ -33,7 +46,9 @@ export const requestLogger =
     }
 
     const requestLog = `[Request]  ${method} ${url}`;
-    console.info(requestLog);
+    if (options.events?.request ?? false) {
+      console.info(requestLog);
+    }
 
     const requestTimeStart = new Date().getTime();
 
@@ -43,7 +58,9 @@ export const requestLogger =
       accountId = accountId ? ` accountId:${accountId}` : "";
 
       const responseLog = `[Response] ${method} ${res.statusCode} ${url} (${requestTime}ms)${accountId}`;
-      console.info(responseLog);
+      if (options.events?.response ?? true) {
+        console.info(responseLog);
+      }
     });
 
     next();

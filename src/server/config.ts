@@ -1,4 +1,5 @@
 import merge from "ts-deepmerge";
+import type { PartialDeep } from "type-fest";
 
 const production = process.env.NODE_ENV === "production";
 
@@ -14,8 +15,13 @@ export interface ServerConfig {
   };
   /** Whether server is running in development */
   development: boolean;
-  /** Whether request logging is enabled */
-  logging: boolean;
+  /** Server logging configuratino */
+  logging: {
+    /** Whether request/response logging is enabled */
+    enabled: boolean;
+    /** Whether requests are logged (alongside responses) */
+    logRequests: boolean;
+  }
   /**
    * Database persistence file path (JSON).
    *
@@ -36,13 +42,16 @@ export let serverConfig: ServerConfig = {
     refreshExpiry: 60 * 60 * 24 * 7,
   },
   development: !production,
-  logging: true,
+  logging: {
+    enabled: true,
+    logRequests: false,
+  },
   production,
   port: 3001,
 };
 
 /** Override global server configuration */
-export const setServerConfig = (config: Partial<ServerConfig>): ServerConfig => {
+export const setServerConfig = (config: PartialDeep<ServerConfig>): ServerConfig => {
   serverConfig = merge.withOptions(
     { allowUndefinedOverrides: false },
     serverConfig,

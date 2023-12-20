@@ -26,7 +26,8 @@ export class ServerController extends Controller {
    */
   @Get("db")
   public async viewDatabase() {
-    return serializeDatabase(database.data!) as object;
+    // biome-ignore lint/suspicious/noExplicitAny: Cannot return `Database` type (TSOA issue)
+    return serializeDatabase(database.data!) as any;
   }
 
   /**
