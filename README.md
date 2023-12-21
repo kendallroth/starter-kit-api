@@ -11,7 +11,6 @@ Simple API package for `starter-kit-*` projects.
 - ✔️ Swagger documentation pages (via GitHub Actions)
 - ✔️ Development workflow (live reloading with `tsup`)
 - ✔️ Optional persistence of API state (with JSON file)
-- ⌛ Account (profile) update
 - ⌛ Use FakerJS for consistent seed data (UUIDs, timestamps, etc)
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password

@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { sort } from "fast-sort";
 
+import { getCurrentDate } from "#common/entities";
 import { NotFoundError } from "#common/errors";
 import { FilterOperators, PaginatedResult } from "#common/types";
 import { getSortList } from "#common/utilities";
@@ -88,9 +89,10 @@ class TodoService {
       throw new NotFoundError();
     }
 
-    const updatedTodo = {
+    const updatedTodo: TodoEntity = {
       ...todo,
       ...body,
+      updatedAt: getCurrentDate(),
     };
 
     database.data?.todos.set(todo.id, updatedTodo);

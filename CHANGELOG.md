@@ -8,12 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- CLI JWT expiry configuration (via `--auth-jwt-expiry <min>` flag)
 
 ### Changed
-- Display Swagger operation IDs
-- Improve Swagger filtering to search tags and operation IDs
-- Share Swagger UI config between dev server and production build
 
 ### Deprecated
 
@@ -22,6 +18,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Internal
+
+<hr />
+
+## `0.4.0` (2023-Dec-21)
+
+### Added
+- API route to update profile
+- CLI JWT expiry configuration (via `--auth-jwt-expiry <min>` flag)
+
+### Changed
+- Display Swagger operation IDs
+- Improve Swagger filtering to search tags and operation IDs
+- Share Swagger UI config between dev server and production build
 
 <hr />
 
@@ -43,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## `0.2.0` (2023-Dec-19)
 
 ### Added
-- Change password route
+- API route to change password
 
 ### Internal
 - Improve build/copy scripts

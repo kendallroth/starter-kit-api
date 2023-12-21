@@ -80,29 +80,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"AuthenticationResponse": {
-				"properties": {
-					"account": {
-						"$ref": "#/components/schemas/AccountResponse"
-					},
-					"accessToken": {
-						"type": "string",
-						"description": "Authorization token (short expiry)",
-						"format": "jwt"
-					},
-					"refreshToken": {
-						"type": "string",
-						"description": "Refresh toke to exchange for new authorization token"
-					}
-				},
-				"required": [
-					"account",
-					"accessToken",
-					"refreshToken"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ValidationErrorResponse": {
 				"properties": {
 					"code": {
@@ -126,6 +103,38 @@
 					"code",
 					"message",
 					"fields"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountUpdateBody": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AuthenticationResponse": {
+				"properties": {
+					"account": {
+						"$ref": "#/components/schemas/AccountResponse"
+					},
+					"accessToken": {
+						"type": "string",
+						"description": "Authorization token (short expiry)",
+						"format": "jwt"
+					},
+					"refreshToken": {
+						"type": "string",
+						"description": "Refresh toke to exchange for new authorization token"
+					}
+				},
+				"required": [
+					"account",
+					"accessToken",
+					"refreshToken"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -545,6 +554,61 @@
 					}
 				],
 				"parameters": []
+			},
+			"patch": {
+				"operationId": "UpdateCurrentAccount",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AccountResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Update authenticated user profile",
+				"tags": [
+					"Account"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountUpdateBody"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/account": {
