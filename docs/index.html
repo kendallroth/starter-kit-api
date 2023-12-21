@@ -3,6 +3,7 @@
 <head>
   <!-- Load the latest Swagger UI code and styles (using unpkg.com) -->
   <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script src="./swagger-config.js"></script>
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
   <title>starter-kit-api</title>
 </head>
@@ -10,28 +11,34 @@
 <body>
   <div id="swagger-ui"></div>
   <script>
+    const { swaggerConfig } = window;
+
+    if (swaggerConfig.customSiteTitle) {
+      document.title = swaggerConfig.customSiteTitle;
+    }
+    if (swaggerConfig.customCss) {
+      const styleNode = document.createElement("style");
+      styleNode.rel = "stylesheet";
+      styleNode.innerHTML = swaggerConfig.customCss;
+      document.head.appendChild(styleNode);
+    }
+
     window.onload = function () {
       // Swagger UI configuration
       // https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
       const ui = SwaggerUIBundle({
         // Location of Open API spec in the repo, which is copied into `/docs` during GitHub Action
         url: "./swagger.json",
-        // Location of Open API spec in remote GitHub repository
-        // url: "https://github.com/kendallroth/starter-kit-api/tree/main/src/generated/swagger.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
-        // Expansion levels for "Schema" section models (-1 hides, 0 collapses, 1 default)
-        defaultModelsExpandDepth: 2,
-        // Expansion levels for operation "Schema" models (-1 hides, 0 collapses, 1 default, 2 expands)
-        defaultModelExpandDepth: 2,
-        // NOTE: Tag filtering currently appears broken 🤷
-        filter: true,
+        ...window.swaggerConfig?.swaggerOptions,
         presets: [
           SwaggerUIBundle.presets.apis,
           SwaggerUIBundle.SwaggerUIStandalonePreset
         ],
         plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
+          SwaggerUIBundle.plugins.DownloadUrl,
+          ...window.swaggerConfig?.swaggerOptions?.plugins,
         ],
       })
       window.ui = ui

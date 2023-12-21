@@ -31,6 +31,9 @@ export default defineConfig((options) => {
         copyfiles([swaggerPath, output], { up: 2 }, () => {});
       }
 
+      // Copy shared Swagger configuration to hosted Swagger UI
+      copyfiles(["./src/swagger-config.js", "./docs"], { up: 1 }, () => {});
+
       let serverProcess: ChildProcessWithoutNullStreams | undefined;
 
       // Restart dev server when changes are detected (but only if run in "watch" mode)
