@@ -20,7 +20,19 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
-    }
+    },
+    "tags": [
+      {
+        "name": "Auth",
+        "description": "Authentication routes"
+      },
+      { "name": "Account" },
+      { "name": "Todo" },
+      {
+        "name": "Api",
+        "description": "API / development routes"
+      }
+    ]
   },
   "routes": {
     "authenticationModule": "./src/server/authentication.ts",

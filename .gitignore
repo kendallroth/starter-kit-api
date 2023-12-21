@@ -12,6 +12,7 @@ node_modules
 # TSOA-generated files
 generated/
 !generated/README.md
+docs/swagger-config.js
 
 # Editors
 .vscode/*

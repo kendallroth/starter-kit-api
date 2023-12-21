@@ -48,7 +48,7 @@ export class ServerController extends Controller {
    * @summary View serialized database individual entity (for development)
    */
   @Get("db/{entity}/{id}")
-  public async viewDatabaseEntity(@Path("entity") entity: string, @Path("id") id: string) {
+  public async viewDatabaseEntityListItem(@Path("entity") entity: string, @Path("id") id: string) {
     // biome-ignore lint/suspicious/noExplicitAny: No need for type safety
     const list = (serializeDatabase(database.data!) as any)[entity];
     if (!list) {

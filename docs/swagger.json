@@ -512,7 +512,7 @@
 	"paths": {
 		"/account/current": {
 			"get": {
-				"operationId": "GetCurrent",
+				"operationId": "GetCurrentAccount",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -549,7 +549,7 @@
 		},
 		"/account": {
 			"post": {
-				"operationId": "CreateTodo",
+				"operationId": "CreateAccount",
 				"responses": {
 					"201": {
 						"description": "",
@@ -853,7 +853,7 @@
 		},
 		"/todo/stats": {
 			"get": {
-				"operationId": "GetTodoStats",
+				"operationId": "GetAllTodoStats",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1185,7 +1185,7 @@
 		},
 		"/db/{entity}/{id}": {
 			"get": {
-				"operationId": "ViewDatabaseEntity",
+				"operationId": "ViewDatabaseEntityListItem",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1225,6 +1225,22 @@
 	"servers": [
 		{
 			"url": "/"
+		}
+	],
+	"tags": [
+		{
+			"name": "Auth",
+			"description": "Authentication routes"
+		},
+		{
+			"name": "Account"
+		},
+		{
+			"name": "Todo"
+		},
+		{
+			"name": "Api",
+			"description": "API / development routes"
 		}
 	]
 }

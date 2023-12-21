@@ -1,5 +1,5 @@
 import express, { Request, Response, json, urlencoded } from "express";
-import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
+import swaggerUi from "swagger-ui-express";
 import type { PartialDeep } from "type-fest";
 
 // NOTE: Patches Express routes to support errors in async flows
@@ -9,6 +9,9 @@ import { RegisterRoutes as RegisterGeneratedRoutes } from "../generated/routes";
 import { requestLogger, routeDelayHandler, routeErrorHandler } from "../middleware";
 import { type ServerConfig, setServerConfig } from "./config";
 import { createDatabase } from "./database";
+
+// Swagger options are shared (via hacky workaround) between dev server and prod static site.
+const swaggerOptions = require("../swagger-config");
 
 /**
  * Create API server
@@ -42,17 +45,6 @@ export const createServer = async (configOverride: PartialDeep<ServerConfig> = {
 
   // Generated Swagger file is included in bundle during `build` step
   const swaggerPublicPath = "./swagger.json";
-  const swaggerOptions: SwaggerUiOptions = {
-    // customJsStr: "",
-    swaggerOptions: {
-      // Expansion levels for "Schema" section models (-1 hides, 0 collapses, 1 default)
-      defaultModelsExpandDepth: 2,
-      // Expansion levels for operation "Schema" models (-1 hides, 0 collapses, 1 default, 2 expands)
-      defaultModelExpandDepth: 2,
-      // NOTE: Tag filtering currently appears broken 🤷
-      filter: true,
-    },
-  };
   const swaggerDoc = swaggerUi.generateHTML(require(swaggerPublicPath), swaggerOptions);
   app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
     // Import Swagger doc for every request in development, but only on startup in production

@@ -32,7 +32,7 @@ export class AccountController extends Controller {
   @Get("current")
   @Security("jwt")
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
-  public async getCurrent(@Request() request: AuthenticatedRequest): Promise<AccountResponse> {
+  public async getCurrentAccount(@Request() request: AuthenticatedRequest): Promise<AccountResponse> {
     return AccountService.getAccount(request.user.id);
   }
 
@@ -42,7 +42,7 @@ export class AccountController extends Controller {
   @SuccessResponse(HttpStatus.CREATED)
   @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
   @Post()
-  public async createTodo(@Body() body: AccountCreateBody): Promise<AuthenticationResponse> {
+  public async createAccount(@Body() body: AccountCreateBody): Promise<AuthenticationResponse> {
     this.setStatus(HttpStatus.CREATED);
     return AccountService.createAccount(body);
   }
