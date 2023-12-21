@@ -40,6 +40,8 @@ jobs:
         run: npm run build:generate
       - name: Copy Swagger doc
         run: npx copyfiles ./src/generated/swagger.json docs --up 2
+      - name: Copy Swagger config
+        run: npx copyfiles ./src/swagger-config.js docs --up 1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:

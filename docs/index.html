@@ -12,13 +12,11 @@
   <div id="swagger-ui"></div>
   <script>
     const { swaggerConfig } = window;
-
-    if (swaggerConfig.customSiteTitle) {
+    if (swaggerConfig?.customSiteTitle) {
       document.title = swaggerConfig.customSiteTitle;
     }
-    if (swaggerConfig.customCss) {
+    if (swaggerConfig?.customCss) {
       const styleNode = document.createElement("style");
-      styleNode.rel = "stylesheet";
       styleNode.innerHTML = swaggerConfig.customCss;
       document.head.appendChild(styleNode);
     }
@@ -31,16 +29,17 @@
         url: "./swagger.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
-        ...window.swaggerConfig?.swaggerOptions,
+        ...swaggerConfig?.swaggerOptions,
         presets: [
           SwaggerUIBundle.presets.apis,
           SwaggerUIBundle.SwaggerUIStandalonePreset
         ],
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl,
-          ...window.swaggerConfig?.swaggerOptions?.plugins,
+          ...swaggerConfig?.swaggerOptions?.plugins,
         ],
-      })
+      });
+      // Attach Swagger UI to global window
       window.ui = ui
     }
   </script>

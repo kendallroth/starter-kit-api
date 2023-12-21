@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+- Display Swagger operation IDs
+- Improve Swagger filtering to search tags and operation IDs
+- Share Swagger UI config between dev server and production build
 
 ### Deprecated
 
