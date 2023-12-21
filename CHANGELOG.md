@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- CLI JWT expiry configuration (via `--auth-jwt-expiry <min>` flag)
 
 ### Changed
 - Display Swagger operation IDs
@@ -27,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## `0.3.0` (2023-Dec-20)
 
 ### Added
-- Optional database persistence (via `--persist <path>` flag)
+- CLI database persistence (via `--persist <path>` flag)
 
 ### Changed
 - Improve entity stubbing to initialize nullable fields
