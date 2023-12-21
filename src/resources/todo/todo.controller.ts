@@ -31,15 +31,15 @@ import { TodoEntity } from "./todo.entity";
 import { TodoService } from "./todo.service";
 import { TodoCreateBody, TodoStatsResponse, TodoUpdateBody } from "./todo.types";
 
-@Route("todo")
-@Security("jwt")
 @Tags("Todo")
+@Security("jwt")
+@Route("todo")
 export class TodoController extends Controller {
   /**
    * @summary Get all of user's todos (supports filtering, sorting)
    */
-  @Get()
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @Get()
   public async getTodos(
     @Request() request: AuthenticatedRequest,
     @Queries() query: PaginationQuery,
@@ -51,8 +51,8 @@ export class TodoController extends Controller {
    * @summary View platform todo stats
    */
   // NOTE: Must be registered BEFORE ":id" route!
-  @Get("stats")
   @NoSecurity()
+  @Get("stats")
   public async getAllTodoStats(@Request() request: AuthenticatedRequest): Promise<TodoStatsResponse> {
     return TodoService.getTodoStats(request.user);
   }

@@ -6,11 +6,17 @@ const production = process.env.NODE_ENV === "production";
 export interface ServerConfig {
   /** Authentication config */
   auth: {
-    /** JWT expiry (in seconds) */
+    /**
+     * JWT expiry (in seconds)
+     * @default "60s * 15"
+     */
     jwtExpiry: number;
     /** Secret used for JWT generation/verification */
     jwtSecret: string;
-    /** Refresh token expiry (in seconds) */
+    /**
+     * Refresh token expiry (in seconds)
+     * @default "60s * 60 * 24 * 7"
+     */
     refreshExpiry: number;
   };
   /** Whether server is running in development */

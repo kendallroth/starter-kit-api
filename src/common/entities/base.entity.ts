@@ -18,9 +18,12 @@ export type OptionalEntityBase<T extends BaseEntity> = Partial<Pick<T, keyof Bas
 /** Omit base entity fields from a type */
 export type WithoutEntityBase<T extends BaseEntity> = Omit<T, keyof BaseEntity>;
 
+/** Get current date (for `createdAt` fields, etc) */
+export const getCurrentDate = (): string => dayjs().toISOString();
+
 /** Instantiate base entity fields */
 export const createEntityBase = (override: Partial<BaseEntity> = {}): BaseEntity => ({
-  createdAt: dayjs().toISOString(),
+  createdAt: getCurrentDate(),
   updatedAt: null,
   id: uuid(),
   ...override,

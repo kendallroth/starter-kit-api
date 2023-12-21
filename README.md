@@ -5,13 +5,12 @@ Simple API package for `starter-kit-*` projects.
 ## Features
 
 - ✔️ Simple Express API (with CLI wrapper) for `starter-kit-*` projects
+- ✔️ CLI wrapper for API (support partial configuration)
 - ✔️ Utility functions for mimicking API behaviour (ie. in frontend mocking, via MSW, etc)
 - ✔️ API error codes (for client localization)
 - ✔️ Swagger documentation pages (via GitHub Actions)
 - ✔️ Development workflow (live reloading with `tsup`)
 - ✔️ Optional persistence of API state (with JSON file)
-- ⌛ Customizable JWT expiry
-- ⌛ Account (profile) update
 - ⌛ Use FakerJS for consistent seed data (UUIDs, timestamps, etc)
 - ⌛ Add API for resetting password
 - ⌛ Add API for changing password
@@ -54,12 +53,13 @@ Usage: sk-api [options]
 Simple API for `starter-kit-*` projects
 
 Options:
-  -v, --version        Display CLI version
-  --persist <path>     Database persistence file path (JSON)
-  --no-logs            Whether request/response logs are disabled
-  --log-requests       Whether requests are logged (alongside responses) (default: false)
-  -p, --port <number>  Server port (default: 3001)
-  -h, --help           Display help for command
+  -v, --version             Display CLI version
+  --auth-jwt-expiry <time>  Auth JWT token expiry time (min) (default: 15)
+  --persist <path>          Database persistence file path (JSON)
+  --no-logs                 Whether request/response logs are disabled
+  --log-requests            Whether requests are logged (alongside responses) (default: false)
+  -p, --port <number>       Server port (default: 3001)
+  -h, --help                Display help for command
 ```
 
 ### Shared

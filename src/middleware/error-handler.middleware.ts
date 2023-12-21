@@ -11,11 +11,12 @@ export const routeErrorHandler = (
   next: NextFunction,
 ) => {
   // TSOA validation errors are thrown when failing type annotation checks
-  if (err instanceof ValidateError) {
+  // NOTE: Checking error instance is no longer working???
+  if (err instanceof ValidateError || (err as Error)?.name === "ValidateError") {
     return res.status(422).json({
       code: ValidationError.code,
       message: ValidationError.message,
-      fields: err.fields,
+      fields: (err as ValidateError).fields,
     });
   }
 

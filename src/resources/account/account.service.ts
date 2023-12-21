@@ -1,11 +1,12 @@
 import { mapToArray, omit } from "#common/utilities";
 
+import { getCurrentDate } from "#common/entities";
 import { ClientError, NotFoundError } from "#common/errors";
 import { AccountEntity, stubAccount } from "#resources/account/account.entity";
 import { AuthService } from "#resources/auth/auth.service";
 import { AuthenticationResponse } from "#resources/auth/auth.types";
 import { database } from "#server/database";
-import { AccountCreateBody, AccountResponse } from "./account.types";
+import { AccountCreateBody, AccountResponse, AccountUpdateBody } from "./account.types";
 
 /** Scrub dangerous information from account */
 const scrubAccount = (entity: AccountEntity): AccountResponse => omit(entity, ["password"]);
@@ -66,6 +67,19 @@ class AccountService {
 
     return AuthService.authenticate(account);
   };
+
+  public async updateAccount(account: AccountEntity, body: AccountUpdateBody): Promise<AccountResponse> {
+    const updatedAccount: AccountEntity = {
+      ...account,
+      ...body,
+      updatedAt: getCurrentDate(),
+    };
+
+    database.data?.accounts.set(account.id, updatedAccount);
+    await database.write();
+
+    return scrubAccount(updatedAccount);
+  }
 }
 
 const singleton = new AccountService();
