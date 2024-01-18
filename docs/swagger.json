@@ -1,4 +1,5 @@
 {
+	"openapi": "3.0.0",
 	"components": {
 		"examples": {},
 		"headers": {},
@@ -6,230 +7,16 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Timestamp": {
-				"type": "string",
-				"format": "date-time",
-				"description": "Stringified ISO timestamp"
-			},
 			"UUID": {
 				"type": "string",
 				"format": "uuid",
 				"description": "Stringified UUIDv4",
 				"pattern": "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}"
 			},
-			"AccountResponse": {
-				"properties": {
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"name": {
-						"type": "string"
-					},
-					"verifiedAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true,
-						"description": "When account was verified"
-					},
-					"id": {
-						"$ref": "#/components/schemas/UUID"
-					},
-					"createdAt": {
-						"$ref": "#/components/schemas/Timestamp",
-						"description": "When entity was created (ISO timestamp)"
-					},
-					"updatedAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true,
-						"description": "When entity was last updated (ISO timestamp)"
-					}
-				},
-				"required": [
-					"email",
-					"name",
-					"id",
-					"createdAt"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UnauthorizedErrorResponse": {
-				"properties": {
-					"code": {
-						"type": "string",
-						"description": "Error code for consuming applications",
-						"example": "ERROR_CODE"
-					},
-					"message": {
-						"type": "string",
-						"description": "Error message"
-					}
-				},
-				"required": [
-					"code",
-					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ValidationErrorResponse": {
-				"properties": {
-					"code": {
-						"type": "string",
-						"description": "Error code for consuming applications",
-						"example": "ERROR_CODE"
-					},
-					"message": {
-						"type": "string",
-						"description": "Error message"
-					},
-					"fields": {
-						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
-						"type": "object"
-					}
-				},
-				"required": [
-					"code",
-					"message",
-					"fields"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"AccountUpdateBody": {
-				"properties": {
-					"name": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"AuthenticationResponse": {
-				"properties": {
-					"account": {
-						"$ref": "#/components/schemas/AccountResponse"
-					},
-					"accessToken": {
-						"type": "string",
-						"description": "Authorization token (short expiry)",
-						"format": "jwt"
-					},
-					"refreshToken": {
-						"type": "string",
-						"description": "Refresh toke to exchange for new authorization token"
-					}
-				},
-				"required": [
-					"account",
-					"accessToken",
-					"refreshToken"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"AccountCreateBody": {
-				"properties": {
-					"password": {
-						"type": "string",
-						"format": "password"
-					},
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"password",
-					"email",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"AuthLoginBody": {
-				"properties": {
-					"email": {
-						"type": "string",
-						"example": "dev@example.com"
-					},
-					"password": {
-						"type": "string",
-						"example": "Passw0rd!",
-						"format": "password",
-						"minLength": 8
-					}
-				},
-				"required": [
-					"email",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ClientErrorResponse": {
-				"properties": {
-					"code": {
-						"type": "string",
-						"description": "Error code for consuming applications",
-						"example": "ERROR_CODE"
-					},
-					"message": {
-						"type": "string",
-						"description": "Error message"
-					}
-				},
-				"required": [
-					"code",
-					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"TokenRefreshBody": {
-				"properties": {
-					"refreshToken": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"refreshToken"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PasswordChangeBody": {
-				"properties": {
-					"oldPassword": {
-						"type": "string",
-						"format": "password"
-					},
-					"newPassword": {
-						"type": "string",
-						"format": "password",
-						"minLength": 8
-					}
-				},
-				"required": [
-					"oldPassword",
-					"newPassword"
-				],
-				"type": "object",
-				"additionalProperties": false
+			"Timestamp": {
+				"type": "string",
+				"format": "date-time",
+				"description": "Stringified ISO timestamp"
 			},
 			"TodoEntity": {
 				"properties": {
@@ -347,6 +134,25 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UnauthorizedErrorResponse": {
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
+					"message": {
+						"type": "string",
+						"description": "Error message"
+					}
+				},
+				"required": [
+					"code",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"PaginationQuery": {
 				"description": "Pagination request params",
 				"properties": {
@@ -434,30 +240,46 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ValidationErrorResponse": {
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
+					"message": {
+						"type": "string",
+						"description": "Error message"
+					},
+					"fields": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					}
+				},
+				"required": [
+					"code",
+					"message",
+					"fields"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"TodoUpdateBody": {
 				"properties": {
 					"text": {
 						"type": "string"
 					},
 					"description": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"dueAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true
+						"type": "string"
 					},
 					"starredAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true
+						"type": "string"
 					}
 				},
 				"type": "object",
@@ -469,28 +291,336 @@
 						"type": "string"
 					},
 					"description": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"dueAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true
+						"type": "string"
 					},
 					"starredAt": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Timestamp"
-							}
-						],
-						"nullable": true
+						"type": "string"
 					}
 				},
 				"required": [
 					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"QuoteEntity": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"createdAt": {
+						"$ref": "#/components/schemas/Timestamp",
+						"description": "When entity was created (ISO timestamp)"
+					},
+					"updatedAt": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Timestamp"
+							}
+						],
+						"nullable": true,
+						"description": "When entity was last updated (ISO timestamp)"
+					},
+					"accountId": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"author": {
+						"type": "string",
+						"nullable": true
+					},
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"public": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"createdAt",
+					"accountId",
+					"text",
+					"tags",
+					"public"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResult_QuoteEntity_": {
+				"description": "Paginated data with pagination info/links\n\nNOTE: Since class uses generics for tying 'data', multiple properties must be replicated for\n        Swagger documentation (since plugin does not pick up properly with generics).",
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/QuoteEntity"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"$ref": "#/components/schemas/Pagination",
+						"description": "Result pagination information"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"QuoteUpdateBody": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"public": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"QuoteCreateBody": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"public": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"text",
+					"tags",
+					"public"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_AccountEntity.Exclude_keyofAccountEntity.password__": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					},
+					"verifiedAt": {
+						"type": "string",
+						"description": "When account was verified"
+					},
+					"id": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"description": "When entity was created (ISO timestamp)"
+					},
+					"updatedAt": {
+						"type": "string",
+						"description": "When entity was last updated (ISO timestamp)"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"id",
+					"createdAt"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"AccountResponse": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					},
+					"verifiedAt": {
+						"type": "string",
+						"description": "When account was verified"
+					},
+					"id": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"description": "When entity was created (ISO timestamp)"
+					},
+					"updatedAt": {
+						"type": "string",
+						"description": "When entity was last updated (ISO timestamp)"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"id",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AuthenticationResponse": {
+				"properties": {
+					"account": {
+						"$ref": "#/components/schemas/AccountResponse"
+					},
+					"accessToken": {
+						"type": "string",
+						"description": "Authorization token (short expiry)",
+						"format": "jwt"
+					},
+					"refreshToken": {
+						"type": "string",
+						"description": "Refresh toke to exchange for new authorization token"
+					}
+				},
+				"required": [
+					"account",
+					"accessToken",
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AuthLoginBody": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"example": "dev@example.com"
+					},
+					"password": {
+						"type": "string",
+						"example": "Passw0rd!",
+						"format": "password",
+						"minLength": 8
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ClientErrorResponse": {
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code for consuming applications",
+						"example": "ERROR_CODE"
+					},
+					"message": {
+						"type": "string",
+						"description": "Error message"
+					}
+				},
+				"required": [
+					"code",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TokenRefreshBody": {
+				"properties": {
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PasswordChangeBody": {
+				"properties": {
+					"oldPassword": {
+						"type": "string",
+						"format": "password"
+					},
+					"newPassword": {
+						"type": "string",
+						"format": "password",
+						"minLength": 8
+					}
+				},
+				"required": [
+					"oldPassword",
+					"newPassword"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountUpdateBody": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AccountCreateBody": {
+				"properties": {
+					"password": {
+						"type": "string",
+						"format": "password"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"email",
+					"name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -506,7 +636,7 @@
 	},
 	"info": {
 		"title": "@kendallroth/starter-kit-api",
-		"version": "0.3.0",
+		"version": "0.4.0",
 		"description": "Simple API for `starter-kit-*` projects",
 		"license": {
 			"name": "MIT"
@@ -517,277 +647,141 @@
 			"url": "https://github.com/kendallroth/starter-kit-api"
 		}
 	},
-	"openapi": "3.0.0",
 	"paths": {
-		"/account/current": {
+		"/": {
 			"get": {
-				"operationId": "GetCurrentAccount",
+				"operationId": "ApiInfo",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/AccountResponse"
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Unauthorized",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+									"properties": {
+										"status": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"status"
+									],
+									"type": "object"
 								}
 							}
 						}
 					}
 				},
-				"summary": "Get authenticated user details",
+				"summary": "API information",
 				"tags": [
-					"Account"
+					"Api"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
+				"security": [],
 				"parameters": []
-			},
-			"patch": {
-				"operationId": "UpdateCurrentAccount",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/AccountResponse"
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Unauthorized",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "Validation errors",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ValidationErrorResponse"
-								}
-							}
-						}
-					}
-				},
-				"summary": "Update authenticated user profile",
-				"tags": [
-					"Account"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/AccountUpdateBody"
-							}
-						}
-					}
-				}
 			}
 		},
-		"/account": {
-			"post": {
-				"operationId": "CreateAccount",
-				"responses": {
-					"201": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/AuthenticationResponse"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "Validation errors",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ValidationErrorResponse"
-								}
-							}
-						}
-					}
-				},
-				"summary": "Create an account",
-				"tags": [
-					"Account"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/AccountCreateBody"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/auth/login": {
-			"post": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/AuthenticationResponse"
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Unauthorized",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
-								}
-							}
-						}
-					}
-				},
-				"summary": "Authenticate user via credentials",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/AuthLoginBody"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/auth/refresh": {
-			"post": {
-				"operationId": "RefreshToken",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/AuthenticationResponse"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Bad request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ClientErrorResponse"
-								}
-							}
-						}
-					}
-				},
-				"summary": "Refresh authentication token",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/TokenRefreshBody"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/auth/password/change": {
-			"patch": {
-				"operationId": "ChangePassword",
+		"/db/reset": {
+			"delete": {
+				"operationId": "ResetDatabase",
 				"responses": {
 					"204": {
 						"description": "No content"
-					},
-					"401": {
-						"description": "Unauthorized",
+					}
+				},
+				"summary": "Reset database",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db": {
+			"get": {
+				"operationId": "ViewDatabase",
+				"responses": {
+					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "Validation errors",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ValidationErrorResponse"
-								}
+								"schema": {}
 							}
 						}
 					}
 				},
-				"summary": "Change user's password",
+				"summary": "View serialized database (for development)",
 				"tags": [
-					"Auth"
+					"Api"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/PasswordChangeBody"
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/db/{entity}": {
+			"get": {
+				"operationId": "ViewDatabaseEntityList",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
 							}
 						}
 					}
-				}
+				},
+				"summary": "View serialized database entity list (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/db/{entity}/{id}": {
+			"get": {
+				"operationId": "ViewDatabaseEntityListItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"summary": "View serialized database individual entity (for development)",
+				"tags": [
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "entity",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/todo": {
@@ -815,7 +809,7 @@
 						}
 					}
 				},
-				"summary": "Get all of user's todos (supports filtering, sorting)",
+				"summary": "Get all of user's todos (supports sorting)",
 				"tags": [
 					"Todo"
 				],
@@ -1149,131 +1143,172 @@
 				]
 			}
 		},
-		"/": {
+		"/quote": {
 			"get": {
-				"operationId": "ApiInfo",
+				"operationId": "GetQuotes",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"status": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"status"
-									],
-									"type": "object"
+									"$ref": "#/components/schemas/PaginatedResult_QuoteEntity_"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
 								}
 							}
 						}
 					}
 				},
-				"summary": "API information",
+				"summary": "Get all visible quotes (supports sorting)",
 				"tags": [
-					"Api"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/db/reset": {
-			"delete": {
-				"operationId": "ResetDatabase",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"summary": "Reset database",
-				"tags": [
-					"Api"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/db": {
-			"get": {
-				"operationId": "ViewDatabase",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"summary": "View serialized database (for development)",
-				"tags": [
-					"Api"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/db/{entity}": {
-			"get": {
-				"operationId": "ViewDatabaseEntityList",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"summary": "View serialized database entity list (for development)",
-				"tags": [
-					"Api"
+					"Quote"
 				],
 				"security": [],
 				"parameters": [
 					{
-						"in": "path",
-						"name": "entity",
-						"required": true,
+						"description": "Requested page size",
+						"in": "query",
+						"name": "size",
+						"required": false,
 						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/db/{entity}/{id}": {
-			"get": {
-				"operationId": "ViewDatabaseEntityListItem",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"summary": "View serialized database individual entity (for development)",
-				"tags": [
-					"Api"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "entity",
-						"required": true,
-						"schema": {
-							"type": "string"
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
 						}
 					},
+					{
+						"description": "Requested page number",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "int32",
+							"type": "integer",
+							"minimum": 1
+						}
+					},
+					{
+						"description": "Requested sorting order",
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "starredAt,-createdAt"
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateQuote",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Add a quote",
+				"tags": [
+					"Quote"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/QuoteCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/quote/{id}": {
+			"get": {
+				"operationId": "GetQuote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NotFoundErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get a quote",
+				"tags": [
+					"Quote"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
 					{
 						"in": "path",
 						"name": "id",
@@ -1283,6 +1318,405 @@
 						}
 					}
 				]
+			},
+			"patch": {
+				"operationId": "UpdateQuote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NotFoundErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Update a quote",
+				"tags": [
+					"Quote"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/QuoteUpdateBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteQuote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteEntity"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Remove a quote",
+				"tags": [
+					"Quote"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Authenticate user via credentials",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthLoginBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ClientErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Refresh authentication token",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TokenRefreshBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/password/change": {
+			"patch": {
+				"operationId": "ChangePassword",
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Change user's password",
+				"tags": [
+					"Auth"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PasswordChangeBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/account/current": {
+			"get": {
+				"operationId": "GetCurrentAccount",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AccountResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get authenticated user details",
+				"tags": [
+					"Account"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			},
+			"patch": {
+				"operationId": "UpdateCurrentAccount",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AccountResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Update authenticated user profile",
+				"tags": [
+					"Account"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountUpdateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/account": {
+			"post": {
+				"operationId": "CreateAccount",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AuthenticationResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidationErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Create an account",
+				"tags": [
+					"Account"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccountCreateBody"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
@@ -1301,6 +1735,9 @@
 		},
 		{
 			"name": "Todo"
+		},
+		{
+			"name": "Quote"
 		},
 		{
 			"name": "Api",
