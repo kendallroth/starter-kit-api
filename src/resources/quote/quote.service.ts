@@ -16,7 +16,7 @@ class QuoteService {
     const quotes = mapToArray(quotesRef).filter((t) => account ? t.accountId === account.id : t.public);
 
     const validSortKeys: (keyof QuoteEntity)[] = ["author", "createdAt"];
-    const sortList = getSortList(options?.sort, validSortKeys, "createdAt");
+    const sortList = getSortList(options?.sort, validSortKeys, "-createdAt");
     const sortedQuotes = sortList.length ? sort(quotes).by(sortList) : quotes;
 
     const paginatedQuotes = paginate(sortedQuotes, options);

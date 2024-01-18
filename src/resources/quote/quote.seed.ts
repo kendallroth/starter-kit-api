@@ -1,7 +1,16 @@
+import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
-import { mapToArray } from "#common/utilities";
 
-import { seedAccountIds } from "#resources/account/account.seed";
+import {
+  generateRandomList,
+  mapToArray,
+  randomBool,
+  randomFromList,
+} from "#common/utilities";
+import {
+  seedAccountIds,
+  seededAccountList,
+} from "#resources/account/account.seed";
 import { QuoteEntity, stubQuote } from "./quote.entity";
 
 export const seedQuoteIds = {
@@ -9,12 +18,38 @@ export const seedQuoteIds = {
   other_quote1: "efad6929-e16b-4341-b5c7-317ab52529d2",
 };
 
+const randomAuthors = generateRandomList(
+  10,
+  () => `${faker.person.firstName()} ${faker.person.lastName()}`
+);
+
+const randomTags = generateRandomList(40, () => faker.word.words(1))
+
+const getRandomQuote = (): QuoteEntity => {
+  const createdAt = faker.date.past({ years: 50 });
+
+  return {
+    ...stubQuote({
+      accountId: randomFromList(seededAccountList).id,
+      createdAt: createdAt.toISOString(),
+      text: faker.lorem.sentences({ max: 4, min: 1 }),
+      description: faker.lorem.sentences({ max: 2, min: 0 }) || null,
+      author: randomFromList(randomAuthors),
+      public: randomBool(0.8),
+      tags: faker.helpers.arrayElements(randomTags, { min: 0, max: 3 }),
+      updatedAt: randomBool()
+        ? faker.date.between({ from: createdAt, to: new Date() }).toISOString()
+        : null,
+    }),
+  };
+};
+
 const seedQuotes = (): Map<string, QuoteEntity> => {
   const todoList: QuoteEntity[] = [
     stubQuote({
       accountId: seedAccountIds.user,
       id: seedQuoteIds.user_quote1,
-      createdAt: dayjs().subtract(8.5, "day").toISOString(),
+      createdAt: dayjs().subtract(1, "day").toISOString(),
       text: "Never wash floors!",
       description: "Hilarious anecdote from January 1 at New Year's Eve party",
       author: "Johann Kleider",
@@ -23,7 +58,7 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
     }),
     stubQuote({
       accountId: seedAccountIds.user,
-      createdAt: dayjs().subtract(7, "day").toISOString(),
+      createdAt: dayjs().subtract(3, "day").toISOString(),
       text: "Always wax floors!",
       description: "Response to Johann at New Year's Eve party",
       author: "Myself",
@@ -32,7 +67,7 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
     }),
     stubQuote({
       accountId: seedAccountIds.user,
-      createdAt: dayjs().subtract(183, "day").toISOString(),
+      createdAt: dayjs().subtract(2, "day").toISOString(),
       text: "Well...this is going to hurt!",
       description: null,
       author: null,
@@ -42,7 +77,7 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
     stubQuote({
       accountId: seedAccountIds.other,
       id: seedQuoteIds.other_quote1,
-      createdAt: dayjs().subtract(199, "day").toISOString(),
+      createdAt: dayjs().subtract(4, "day").toISOString(),
       text: "[A2] When in doubt...run!",
       description: null,
       author: null,
@@ -51,13 +86,14 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
     }),
     stubQuote({
       accountId: seedAccountIds.other,
-      createdAt: dayjs().subtract(38, "day").toISOString(),
+      createdAt: dayjs().subtract(9, "day").toISOString(),
       text: "[A2] When running...run fast!",
       description: null,
       author: null,
       public: false,
       tags: [],
     }),
+    ...generateRandomList(100, getRandomQuote),
   ];
 
   return new Map(todoList.map((t) => [t.id, t]));
@@ -65,4 +101,3 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
 
 export const seededQuoteMap = seedQuotes();
 export const seededQuoteList = mapToArray(seededQuoteMap);
-
