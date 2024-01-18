@@ -306,7 +306,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"QuoteEntity": {
+			"QuoteResponse": {
 				"properties": {
 					"id": {
 						"$ref": "#/components/schemas/UUID"
@@ -346,6 +346,21 @@
 					},
 					"public": {
 						"type": "boolean"
+					},
+					"account": {
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"name",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
@@ -354,17 +369,18 @@
 					"accountId",
 					"text",
 					"tags",
-					"public"
+					"public",
+					"account"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"PaginatedResult_QuoteEntity_": {
+			"PaginatedResult_QuoteResponse_": {
 				"description": "Paginated data with pagination info/links\n\nNOTE: Since class uses generics for tying 'data', multiple properties must be replicated for\n        Swagger documentation (since plugin does not pick up properly with generics).",
 				"properties": {
 					"data": {
 						"items": {
-							"$ref": "#/components/schemas/QuoteEntity"
+							"$ref": "#/components/schemas/QuoteResponse"
 						},
 						"type": "array"
 					},
@@ -1152,7 +1168,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/PaginatedResult_QuoteEntity_"
+									"$ref": "#/components/schemas/PaginatedResult_QuoteResponse_"
 								}
 							}
 						}
@@ -1206,7 +1222,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/QuoteEntity"
+									"$ref": "#/components/schemas/QuoteResponse"
 								}
 							}
 						}
@@ -1263,7 +1279,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/QuoteEntity"
+									"$ref": "#/components/schemas/QuoteResponse"
 								}
 							}
 						}
@@ -1286,7 +1302,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/QuoteEntity"
+									"$ref": "#/components/schemas/QuoteResponse"
 								}
 							}
 						}
@@ -1340,7 +1356,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/QuoteEntity"
+									"$ref": "#/components/schemas/QuoteResponse"
 								}
 							}
 						}
@@ -1414,7 +1430,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/QuoteEntity"
+									"$ref": "#/components/schemas/QuoteResponse"
 								}
 							}
 						}

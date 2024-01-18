@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <hr />
 
+## `0.5.0` (2024-Jan-18)
+
+### Added
+- Quote entity and routes
+
+### Internal
+- Used `fakerjs` for generating seed data
+
+<hr />
+
 ## `0.4.0` (2023-Dec-21)
 
 ### Added

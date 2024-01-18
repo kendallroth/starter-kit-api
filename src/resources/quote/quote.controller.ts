@@ -27,9 +27,8 @@ import {
 import { PaginatedResult, PaginationQuery } from "#common/types";
 import { HttpStatus } from "#common/utilities";
 import { AuthenticatedRequest } from "#server/authentication";
-import { QuoteEntity } from "./quote.entity";
 import { QuoteService } from "./quote.service";
-import { QuoteCreateBody, QuoteUpdateBody } from "./quote.types";
+import { QuoteCreateBody, QuoteResponse, QuoteUpdateBody } from "./quote.types";
 
 @Tags("Quote")
 @Security("jwt")
@@ -44,7 +43,7 @@ export class QuoteController extends Controller {
     // Technically this endpoint may or may not be authenticated!
     @Request() request: AuthenticatedRequest,
     @Queries() query: PaginationQuery,
-  ): Promise<PaginatedResult<QuoteEntity>> {
+  ): Promise<PaginatedResult<QuoteResponse>> {
     return QuoteService.getQuotes(request.user, query);
   }
 
@@ -54,7 +53,7 @@ export class QuoteController extends Controller {
   // NOTE: Must be registered BEFORE ":id" route!
   @NoSecurity()
   @Get("qod")
-  public async getQuoteOfTheDay(): Promise<QuoteEntity> {
+  public async getQuoteOfTheDay(): Promise<QuoteResponse> {
     return QuoteService.getQuoteOfTheDay();
   }
 
@@ -67,7 +66,7 @@ export class QuoteController extends Controller {
   public async getQuote(
     @Request() request: AuthenticatedRequest,
     @Path("id") quoteId: string,
-  ): Promise<QuoteEntity> {
+  ): Promise<QuoteResponse> {
     return QuoteService.getQuote(request.user, quoteId);
   }
 
@@ -82,7 +81,7 @@ export class QuoteController extends Controller {
     @Request() request: AuthenticatedRequest,
     @Path("id") quoteId: string,
     @Body() body: QuoteUpdateBody,
-  ): Promise<QuoteEntity> {
+  ): Promise<QuoteResponse> {
     return QuoteService.updateQuote(request.user, quoteId, body);
   }
 
@@ -96,7 +95,7 @@ export class QuoteController extends Controller {
   public async createQuote(
     @Request() request: AuthenticatedRequest,
     @Body() body: QuoteCreateBody,
-  ): Promise<QuoteEntity> {
+  ): Promise<QuoteResponse> {
     this.setStatus(HttpStatus.CREATED);
     return QuoteService.createQuote(request.user, body);
   }
@@ -110,7 +109,7 @@ export class QuoteController extends Controller {
   public async deleteQuote(
     @Request() request: AuthenticatedRequest,
     @Path("id") quoteId: string,
-  ): Promise<QuoteEntity> {
+  ): Promise<QuoteResponse> {
     return QuoteService.deleteQuote(request.user, quoteId);
   }
 }

@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { Request, Response, json, urlencoded } from "express";
 import swaggerUi from "swagger-ui-express";
 import type { PartialDeep } from "type-fest";
@@ -31,6 +32,7 @@ export const createServer = async (configOverride: PartialDeep<ServerConfig> = {
       extended: true,
     }),
   );
+  app.use(cors());
   app.use(json());
   app.use(
     requestLogger({

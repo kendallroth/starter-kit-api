@@ -12,7 +12,7 @@ Simple API package for `starter-kit-*` projects.
 - ✔️ Development workflow (live reloading with `tsup`)
 - ✔️ Optional persistence of API state (with JSON file)
 - ⌛ Use FakerJS for consistent seed data (UUIDs, timestamps, etc)
-- ⌛ Support entity filtering
+- ⌛ Support entity filtering and searching
 - ⌛ Add API for resetting password
 - ⌛ Implement API localization
 - ❓ Support `--no-auth` parameter for non-authenticated frontends (defaults to single user)?

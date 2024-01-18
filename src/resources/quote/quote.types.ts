@@ -5,3 +5,10 @@ export interface QuoteCreateBody
 
 export interface QuoteUpdateBody
   extends Partial<Pick<QuoteEntity, "text" | "description" | "author" | "tags" | "public">> {}
+
+export interface QuoteResponse extends QuoteEntity {
+  account: {
+    id: string;
+    name: string;
+  }
+}
