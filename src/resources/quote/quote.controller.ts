@@ -39,7 +39,6 @@ export class QuoteController extends Controller {
    * @summary Get all visible quotes (supports sorting)
    */
   @NoSecurity()
-  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Get()
   public async getQuotes(
     // Technically this endpoint may or may not be authenticated!
@@ -47,6 +46,16 @@ export class QuoteController extends Controller {
     @Queries() query: PaginationQuery,
   ): Promise<PaginatedResult<QuoteEntity>> {
     return QuoteService.getQuotes(request.user, query);
+  }
+
+  /**
+   * @summary Get the quote of the day
+   */
+  // NOTE: Must be registered BEFORE ":id" route!
+  @NoSecurity()
+  @Get("qod")
+  public async getQuoteOfTheDay(): Promise<QuoteEntity> {
+    return QuoteService.getQuoteOfTheDay();
   }
 
   /**

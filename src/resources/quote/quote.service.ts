@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+import dayjs from "dayjs";
 import { sort } from "fast-sort";
 
 import { getCurrentDate } from "#common/entities";
@@ -13,7 +15,7 @@ import { QuoteCreateBody, QuoteUpdateBody } from "./quote.types";
 class QuoteService {
   public getQuotes(account?: AccountEntity, options?: FilterOperators): PaginatedResult<QuoteEntity> {
     const quotesRef = database.data!.quotes;
-    const quotes = mapToArray(quotesRef).filter((t) => account ? t.accountId === account.id : t.public);
+    const quotes = mapToArray(quotesRef).filter((q) => account ? q.accountId === account.id : q.public);
 
     const validSortKeys: (keyof QuoteEntity)[] = ["author", "createdAt"];
     const sortList = getSortList(options?.sort, validSortKeys, "-createdAt");
@@ -21,6 +23,15 @@ class QuoteService {
 
     const paginatedQuotes = paginate(sortedQuotes, options);
     return paginatedQuotes;
+  }
+
+  public getQuoteOfTheDay(): QuoteEntity {
+    const quotesRef = database.data!.quotes;
+    const publicQuotes = mapToArray(quotesRef).filter((q) => q.public);
+    faker.seed(dayjs().unix() / 86400);
+    const quote = faker.helpers.arrayElement(publicQuotes);
+    faker.seed();
+    return quote;
   }
 
   public getQuoteById(id: string): QuoteEntity | undefined {

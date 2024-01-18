@@ -636,7 +636,7 @@
 	},
 	"info": {
 		"title": "@kendallroth/starter-kit-api",
-		"version": "0.4.0",
+		"version": "0.5.0",
 		"description": "Simple API for `starter-kit-*` projects",
 		"license": {
 			"name": "MIT"
@@ -1156,16 +1156,6 @@
 								}
 							}
 						}
-					},
-					"401": {
-						"description": "Unauthorized",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UnauthorizedErrorResponse"
-								}
-							}
-						}
 					}
 				},
 				"summary": "Get all visible quotes (supports sorting)",
@@ -1262,6 +1252,29 @@
 						}
 					}
 				}
+			}
+		},
+		"/quote/qod": {
+			"get": {
+				"operationId": "GetQuoteOfTheDay",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteEntity"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get the quote of the day",
+				"tags": [
+					"Quote"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/quote/{id}": {
