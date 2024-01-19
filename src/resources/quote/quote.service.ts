@@ -4,7 +4,7 @@ import { sort } from "fast-sort";
 
 import { getCurrentDate } from "#common/entities";
 import { NotFoundError, ServerError } from "#common/errors";
-import { FilterOperators, PaginatedResult } from "#common/types";
+import { PaginatedFilterQuery, PaginatedResult } from "#common/types";
 import { getSortList, pick, randomFromList } from "#common/utilities";
 import { mapToArray, paginate } from "#common/utilities";
 import { AccountEntity } from "#resources/account/account.entity";
@@ -13,6 +13,7 @@ import { QuoteEntity, stubQuote } from "./quote.entity";
 import { QuoteCreateBody, QuoteResponse, QuoteUpdateBody } from "./quote.types";
 
 class QuoteService {
+  /** Populate quote with related account, etc */
   private mapQuoteEntityToResponse = (quote: QuoteEntity): QuoteResponse => {
     const accountsRef = database.data!.accounts;
     const account = accountsRef.get(quote.accountId);
@@ -26,11 +27,20 @@ class QuoteService {
 
   public getQuotes(
     account?: AccountEntity,
-    options?: FilterOperators
+    options?: PaginatedFilterQuery
   ): PaginatedResult<QuoteResponse> {
     const quotesRef = database.data!.quotes;
     const quotes = mapToArray(quotesRef)
-      .filter((q) => (account ? q.accountId === account.id : q.public))
+      .filter((q) => {
+        if (!q.public && q.accountId !== account?.id) return false;
+        if (options?.search) {
+          const searchText = options.search.toLowerCase();
+          const foundInText = [q.text, q.author].some((target) => target?.toLowerCase().includes(searchText));
+          if (foundInText) return true;
+          return q.tags.some((tag) => tag.toLowerCase().includes(searchText));
+        }
+        return true;
+      })
       .map((q) => this.mapQuoteEntityToResponse(q));
 
     const validSortKeys: (keyof QuoteEntity)[] = ["author", "createdAt"];
@@ -44,6 +54,7 @@ class QuoteService {
   public getQuoteOfTheDay(): QuoteResponse {
     const quotesRef = database.data!.quotes;
     const publicQuotes = mapToArray(quotesRef).filter((q) => q.public);
+    // Use today's date to get a reproducible daily seed
     faker.seed(dayjs().unix() / 86400);
     const quote = faker.helpers.arrayElement(publicQuotes);
     faker.seed();

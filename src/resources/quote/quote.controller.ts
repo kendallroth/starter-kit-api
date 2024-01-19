@@ -24,7 +24,7 @@ import {
   ValidationError,
   ValidationErrorResponse,
 } from "#common/errors";
-import { PaginatedResult, PaginationQuery } from "#common/types";
+import { PaginatedFilterQuery, PaginatedResult } from "#common/types";
 import { HttpStatus } from "#common/utilities";
 import { AuthenticatedRequest } from "#server/authentication";
 import { QuoteService } from "./quote.service";
@@ -35,14 +35,14 @@ import { QuoteCreateBody, QuoteResponse, QuoteUpdateBody } from "./quote.types";
 @Route("quote")
 export class QuoteController extends Controller {
   /**
-   * @summary Get all visible quotes (supports sorting)
+   * @summary Get all visible quotes (supports sorting, search)
    */
   @NoSecurity()
   @Get()
   public async getQuotes(
     // Technically this endpoint may or may not be authenticated!
     @Request() request: AuthenticatedRequest,
-    @Queries() query: PaginationQuery,
+    @Queries() query: PaginatedFilterQuery,
   ): Promise<PaginatedResult<QuoteResponse>> {
     return QuoteService.getQuotes(request.user, query);
   }

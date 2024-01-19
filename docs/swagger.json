@@ -396,6 +396,34 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"PaginatedFilterQuery": {
+				"description": "Service function filter operators (similar to pagination)",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page size",
+						"minimum": 1
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32",
+						"description": "Requested page number",
+						"minimum": 1
+					},
+					"sort": {
+						"type": "string",
+						"description": "Requested sorting order",
+						"example": "starredAt,-createdAt"
+					},
+					"search": {
+						"type": "string",
+						"description": "Search text"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"QuoteUpdateBody": {
 				"properties": {
 					"text": {
@@ -1174,7 +1202,7 @@
 						}
 					}
 				},
-				"summary": "Get all visible quotes (supports sorting)",
+				"summary": "Get all visible quotes (supports sorting, search)",
 				"tags": [
 					"Quote"
 				],
@@ -1211,6 +1239,15 @@
 							"type": "string"
 						},
 						"example": "starredAt,-createdAt"
+					},
+					{
+						"description": "Search text",
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
 					}
 				]
 			},
