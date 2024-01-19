@@ -58,6 +58,16 @@ export class QuoteController extends Controller {
   }
 
   /**
+   * @summary Get a random quote
+   */
+  // NOTE: Must be registered BEFORE ":id" route!
+  @NoSecurity()
+  @Get("random")
+  public async getRandomQuote(): Promise<QuoteResponse> {
+    return QuoteService.getRandomQuote();
+  }
+
+  /**
    * @summary Get a quote
    */
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)

@@ -5,7 +5,7 @@ import { sort } from "fast-sort";
 import { getCurrentDate } from "#common/entities";
 import { NotFoundError, ServerError } from "#common/errors";
 import { FilterOperators, PaginatedResult } from "#common/types";
-import { getSortList, pick } from "#common/utilities";
+import { getSortList, pick, randomFromList } from "#common/utilities";
 import { mapToArray, paginate } from "#common/utilities";
 import { AccountEntity } from "#resources/account/account.entity";
 import { database } from "#server/database";
@@ -48,6 +48,13 @@ class QuoteService {
     const quote = faker.helpers.arrayElement(publicQuotes);
     faker.seed();
     return this.mapQuoteEntityToResponse(quote);
+  }
+
+  public getRandomQuote(): QuoteResponse {
+    const quotesRef = database.data!.quotes;
+    const publicQuotes = mapToArray(quotesRef).filter((q) => q.public);
+    const randomQuote = randomFromList(publicQuotes);
+    return this.mapQuoteEntityToResponse(randomQuote);
   }
 
   public getQuoteById(id: string): QuoteEntity | undefined {

@@ -19,13 +19,13 @@ export const seedQuoteIds = {
 };
 
 const randomAuthors = generateRandomList(
-  10,
+  25,
   () => `${faker.person.firstName()} ${faker.person.lastName()}`
 );
 
 const randomTags = generateRandomList(40, () => faker.word.words(1))
 
-const getRandomQuote = (): QuoteEntity => {
+const generateQuote = (): QuoteEntity => {
   const createdAt = faker.date.past({ years: 50 });
 
   return {
@@ -93,7 +93,7 @@ const seedQuotes = (): Map<string, QuoteEntity> => {
       public: false,
       tags: [],
     }),
-    ...generateRandomList(100, getRandomQuote),
+    ...generateRandomList(100, generateQuote),
   ];
 
   return new Map(todoList.map((t) => [t.id, t]));

@@ -1293,6 +1293,29 @@
 				"parameters": []
 			}
 		},
+		"/quote/random": {
+			"get": {
+				"operationId": "GetRandomQuote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QuoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Get a random quote",
+				"tags": [
+					"Quote"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/quote/{id}": {
 			"get": {
 				"operationId": "GetQuote",
