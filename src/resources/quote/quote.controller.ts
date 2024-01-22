@@ -24,105 +24,102 @@ import {
   ValidationError,
   ValidationErrorResponse,
 } from "#common/errors";
-import { PaginatedResult, PaginationQuery } from "#common/types";
+import { PaginatedFilterQuery, PaginatedResult } from "#common/types";
 import { HttpStatus } from "#common/utilities";
 import { AuthenticatedRequest } from "#server/authentication";
-import { TodoEntity } from "./todo.entity";
-import { TodoService } from "./todo.service";
-import { TodoCreateBody, TodoStatsResponse, TodoUpdateBody } from "./todo.types";
+import { QuoteService } from "./quote.service";
+import { QuoteCreateBody, QuoteResponse, QuoteUpdateBody } from "./quote.types";
 
-@Tags("Todo")
+@Tags("Quote")
 @Security("jwt")
-@Route("todo")
-export class TodoController extends Controller {
+@Route("quote")
+export class QuoteController extends Controller {
   /**
-   * @summary Get all of user's todos (supports sorting)
+   * @summary Get all visible quotes (supports sorting, search)
    */
-  @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
+  @NoSecurity()
   @Get()
-  public async getTodos(
+  public async getQuotes(
+    // Technically this endpoint may or may not be authenticated!
     @Request() request: AuthenticatedRequest,
-    @Queries() query: PaginationQuery,
-  ): Promise<PaginatedResult<TodoEntity>> {
-    return TodoService.getTodos(request.user, query);
+    @Queries() query: PaginatedFilterQuery,
+  ): Promise<PaginatedResult<QuoteResponse>> {
+    return QuoteService.getQuotes(request.user, query);
   }
 
   /**
-   * @summary View platform todo stats
+   * @summary Get the quote of the day
    */
   // NOTE: Must be registered BEFORE ":id" route!
   @NoSecurity()
-  @Get("stats")
-  public async getAllTodoStats(
-    @Request() request: AuthenticatedRequest,
-  ): Promise<TodoStatsResponse> {
-    return TodoService.getTodoStats(request.user);
+  @Get("qod")
+  public async getQuoteOfTheDay(): Promise<QuoteResponse> {
+    return QuoteService.getQuoteOfTheDay();
   }
 
   /**
-   * @summary View account todo stats
+   * @summary Get a random quote
    */
   // NOTE: Must be registered BEFORE ":id" route!
-  @Get("stats/account")
-  public async getAccountTodoStats(
-    @Request() request: AuthenticatedRequest,
-  ): Promise<TodoStatsResponse> {
-    return TodoService.getTodoStats(request.user);
+  @NoSecurity()
+  @Get("random")
+  public async getRandomQuote(): Promise<QuoteResponse> {
+    return QuoteService.getRandomQuote();
   }
 
   /**
-   * @summary Get a todo
+   * @summary Get a quote
    */
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Response<NotFoundErrorResponse>(NotFoundError.status, NotFoundError.message)
   @Get("{id}")
-  public async getTodo(
+  public async getQuote(
     @Request() request: AuthenticatedRequest,
-    @Path("id") todoId: string,
-  ): Promise<TodoEntity> {
-    return TodoService.getTodo(request.user, todoId);
+    @Path("id") quoteId: string,
+  ): Promise<QuoteResponse> {
+    return QuoteService.getQuote(request.user, quoteId);
   }
 
   /**
-   * @summary Update a todo
+   * @summary Update a quote
    */
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Response<NotFoundErrorResponse>(NotFoundError.status, NotFoundError.message)
   @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
   @Patch("{id}")
-  public async updateTodo(
+  public async updateQuote(
     @Request() request: AuthenticatedRequest,
-    @Path("id") todoId: string,
-    @Body() body: TodoUpdateBody,
-  ): Promise<TodoEntity> {
-    return TodoService.updateTodo(request.user, todoId, body);
+    @Path("id") quoteId: string,
+    @Body() body: QuoteUpdateBody,
+  ): Promise<QuoteResponse> {
+    return QuoteService.updateQuote(request.user, quoteId, body);
   }
 
   /**
-   * @summary Add a todo
+   * @summary Add a quote
    */
   @SuccessResponse(HttpStatus.CREATED)
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
   @Post()
-  public async createTodo(
+  public async createQuote(
     @Request() request: AuthenticatedRequest,
-    @Body() body: TodoCreateBody,
-  ): Promise<TodoEntity> {
+    @Body() body: QuoteCreateBody,
+  ): Promise<QuoteResponse> {
     this.setStatus(HttpStatus.CREATED);
-    return TodoService.createTodo(request.user, body);
+    return QuoteService.createQuote(request.user, body);
   }
 
   /**
-   * @summary Remove a todo
+   * @summary Remove a quote
    */
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Response<ValidationErrorResponse>(ValidationError.status, ValidationError.message)
   @Delete("{id}")
-  public async deleteTodo(
+  public async deleteQuote(
     @Request() request: AuthenticatedRequest,
-    @Path("id") todoId: string,
-  ): Promise<TodoEntity> {
-    return TodoService.deleteTodo(request.user, todoId);
+    @Path("id") quoteId: string,
+  ): Promise<QuoteResponse> {
+    return QuoteService.deleteQuote(request.user, quoteId);
   }
 }

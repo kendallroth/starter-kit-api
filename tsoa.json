@@ -28,6 +28,7 @@
       },
       { "name": "Account" },
       { "name": "Todo" },
+      { "name": "Quote" },
       {
         "name": "Api",
         "description": "API / development routes"

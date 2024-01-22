@@ -70,10 +70,10 @@ const windowName = "swaggerConfig";
               const filteredTagMap = tagMap.set("operations", filteredOperations);
               return reduction.set(tagKey, filteredTagMap);
             }, Im.OrderedMap());
-          }
+          },
         },
       }),
     ],
   };
-// biome-ignore lint/suspicious/noAssignInExpressions: Necessary to run in both Node and browser
-})(typeof exports === "undefined" ? this[windowName] = {} : exports)
+  // biome-ignore lint/suspicious/noAssignInExpressions: Necessary to run in both Node and browser
+})(typeof exports === "undefined" ? (this[windowName] = {}) : exports);

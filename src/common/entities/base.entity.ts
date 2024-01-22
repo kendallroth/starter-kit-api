@@ -43,7 +43,9 @@ export const stubEntity = <T extends BaseEntity>(data: OptionalEntityBase<T>): T
  *
  * @param defaults Default values for all stubs
  */
-export const getEntityStub = <T extends BaseEntity>(defaults?: Partial<T>) => (data: OptionalEntityBase<T>): T => ({
-  ...(defaults ?? {}),
-  ...stubEntity(data),
-});
+export const getEntityStub =
+  <T extends BaseEntity>(defaults?: Partial<T>) =>
+  (data: OptionalEntityBase<T>): T => ({
+    ...(defaults ?? {}),
+    ...stubEntity(data),
+  });

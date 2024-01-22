@@ -55,7 +55,7 @@ program
     createServer({
       ...pick(options, ["persist", "port"]),
       auth: {
-        jwtExpiry: (options.authJwtExpiry?? 15) * 60,
+        jwtExpiry: (options.authJwtExpiry ?? 15) * 60,
       },
       logging: {
         enabled: options.logs,

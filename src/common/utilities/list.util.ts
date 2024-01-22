@@ -12,13 +12,3 @@ export const createList = <T>(amount: number, createItem: (idx: number) => T): T
 export const mapToArray = <T>(map: Map<string, T>): T[] => {
   return Array.from(map.values());
 };
-
-/** Get a random item from a list */
-export const randomFromList = <T>(list: T[]): T => {
-  return list[Math.floor(Math.random() * list.length)] as T;
-};
-
-/** Get a random integer within a range */
-export const randomFromRange = (min: number, max: number): number => {
-  return Math.floor(Math.random() * max) + min;
-};

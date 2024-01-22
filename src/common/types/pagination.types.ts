@@ -1,5 +1,8 @@
 /** Service function filter operators (similar to pagination) */
-export interface FilterOperators extends Partial<PaginationQuery> {}
+export interface PaginatedFilterQuery extends Partial<PaginationQuery> {
+  /** Search text */
+  search?: string;
+}
 
 /** Page-based pagination metadata */
 export interface Pagination {

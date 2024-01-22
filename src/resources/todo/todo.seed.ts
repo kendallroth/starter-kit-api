@@ -27,7 +27,7 @@ const seedTodos = (): Map<string, TodoEntity> => {
     stubTodo({
       accountId: seedAccountIds.other,
       id: seedTodoIds.other_todo1,
-      text: "U2 Clean storage area",
+      text: "[A2] Clean storage area",
       createdAt: dayjs().subtract(1, "day").toISOString(),
     }),
   ];
