@@ -12,7 +12,10 @@ import { TodoEntity, stubTodo } from "./todo.entity";
 import { TodoCreateBody, TodoStatsResponse, TodoUpdateBody } from "./todo.types";
 
 class TodoService {
-  public getTodos(account: AccountEntity, options?: PaginatedFilterQuery): PaginatedResult<TodoEntity> {
+  public getTodos(
+    account: AccountEntity,
+    options?: PaginatedFilterQuery,
+  ): PaginatedResult<TodoEntity> {
     const todosRef = database.data!.todos;
     const todos = mapToArray(todosRef).filter((t) => t.accountId === account.id);
 
@@ -83,7 +86,11 @@ class TodoService {
     return todo;
   }
 
-  public async updateTodo(account: AccountEntity, id: string, body: TodoUpdateBody): Promise<TodoEntity> {
+  public async updateTodo(
+    account: AccountEntity,
+    id: string,
+    body: TodoUpdateBody,
+  ): Promise<TodoEntity> {
     const todo = this.getTodoById(id);
     if (!todo || todo.accountId !== account.id) {
       throw new NotFoundError();

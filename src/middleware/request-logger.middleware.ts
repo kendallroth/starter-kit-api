@@ -58,7 +58,7 @@ export const requestLogger =
       let accountId = (req as AuthenticatedRequest).user?.id ?? "";
       accountId = accountId ? ` accountId:${accountId}` : "";
 
-      const timestamp = dayjs().format("HH:mm:ss")
+      const timestamp = dayjs().format("HH:mm:ss");
       const responseLog = `[Response] ${timestamp} ${method} ${res.statusCode} ${url} (${requestTime}ms)${accountId}`;
       if (options.events?.response ?? true) {
         console.info(responseLog);

@@ -123,4 +123,3 @@ export class QuoteController extends Controller {
     return QuoteService.deleteQuote(request.user, quoteId);
   }
 }
-

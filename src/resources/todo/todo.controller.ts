@@ -53,7 +53,9 @@ export class TodoController extends Controller {
   // NOTE: Must be registered BEFORE ":id" route!
   @NoSecurity()
   @Get("stats")
-  public async getAllTodoStats(@Request() request: AuthenticatedRequest): Promise<TodoStatsResponse> {
+  public async getAllTodoStats(
+    @Request() request: AuthenticatedRequest,
+  ): Promise<TodoStatsResponse> {
     return TodoService.getTodoStats(request.user);
   }
 

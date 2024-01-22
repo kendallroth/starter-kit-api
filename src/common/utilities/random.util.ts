@@ -18,7 +18,10 @@ export const randomFromList = <T>(list: T[]): T => {
  * @param size     List size (length or min/max)
  * @param callback Callback for creating individual list elements
  */
-export const generateRandomList = <T>(size: number | { min: number; max: number }, callback: (index: number) => T): T[] => {
+export const generateRandomList = <T>(
+  size: number | { min: number; max: number },
+  callback: (index: number) => T,
+): T[] => {
   const length = typeof size === "number" ? size : randomFromRange(size.min, size.max);
   return [...Array(length).keys()].map((idx) => callback(idx));
 };

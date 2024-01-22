@@ -21,13 +21,13 @@ class QuoteService {
 
     return {
       ...quote,
-      account: pick(account, ["id", "name"])
+      account: pick(account, ["id", "name"]),
     };
   };
 
   public getQuotes(
     account?: AccountEntity,
-    options?: PaginatedFilterQuery
+    options?: PaginatedFilterQuery,
   ): PaginatedResult<QuoteResponse> {
     const quotesRef = database.data!.quotes;
     const quotes = mapToArray(quotesRef)
@@ -35,7 +35,9 @@ class QuoteService {
         if (!q.public && q.accountId !== account?.id) return false;
         if (options?.search) {
           const searchText = options.search.toLowerCase();
-          const foundInText = [q.text, q.author].some((target) => target?.toLowerCase().includes(searchText));
+          const foundInText = [q.text, q.author].some((target) =>
+            target?.toLowerCase().includes(searchText),
+          );
           if (foundInText) return true;
           return q.tags.some((tag) => tag.toLowerCase().includes(searchText));
         }
@@ -82,10 +84,7 @@ class QuoteService {
     return this.mapQuoteEntityToResponse(quote);
   }
 
-  public async createQuote(
-    account: AccountEntity,
-    body: QuoteCreateBody
-  ): Promise<QuoteResponse> {
+  public async createQuote(account: AccountEntity, body: QuoteCreateBody): Promise<QuoteResponse> {
     const quote = stubQuote({
       accountId: account.id,
       ...body,
@@ -97,10 +96,7 @@ class QuoteService {
     return this.mapQuoteEntityToResponse(quote);
   }
 
-  public async deleteQuote(
-    account: AccountEntity,
-    id: string
-  ): Promise<QuoteResponse> {
+  public async deleteQuote(account: AccountEntity, id: string): Promise<QuoteResponse> {
     const quote = this.getQuoteById(id);
     if (!quote || quote.accountId !== account.id) {
       throw new NotFoundError();
@@ -115,7 +111,7 @@ class QuoteService {
   public async updateQuote(
     account: AccountEntity,
     id: string,
-    body: QuoteUpdateBody
+    body: QuoteUpdateBody,
   ): Promise<QuoteResponse> {
     const quote = this.getQuoteById(id);
     if (!quote || quote.accountId !== account.id) {

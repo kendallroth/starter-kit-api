@@ -10,7 +10,12 @@ import {
 } from "#common/errors";
 import { AuthenticatedRequest } from "#server/authentication";
 import { AuthService } from "./auth.service";
-import { AuthLoginBody, AuthenticationResponse, PasswordChangeBody, TokenRefreshBody } from "./auth.types";
+import {
+  AuthLoginBody,
+  AuthenticationResponse,
+  PasswordChangeBody,
+  TokenRefreshBody,
+} from "./auth.types";
 import { PasswordService } from "./password.service";
 
 @Tags("Auth")

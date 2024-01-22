@@ -68,7 +68,10 @@ class AccountService {
     return AuthService.authenticate(account);
   };
 
-  public async updateAccount(account: AccountEntity, body: AccountUpdateBody): Promise<AccountResponse> {
+  public async updateAccount(
+    account: AccountEntity,
+    body: AccountUpdateBody,
+  ): Promise<AccountResponse> {
     const updatedAccount: AccountEntity = {
       ...account,
       ...body,

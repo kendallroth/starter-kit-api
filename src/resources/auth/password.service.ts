@@ -10,7 +10,7 @@ class PasswordService {
     }
     if (body.newPassword === body.oldPassword) {
       throw new ValidationError(
-        { newPassword: "Must be different than old password", },
+        { newPassword: "Must be different than old password" },
         "Passwords must be different",
         "PASSWORDS_SAME",
       );

@@ -26,7 +26,7 @@ export const getDefaultData = (): Database => ({
   todos: new Map(seededTodoMap),
   refreshTokens: new Map(),
   quotes: new Map(seededQuoteMap),
-})
+});
 
 // biome-ignore lint/suspicious/noExplicitAny: Serialized database needs no type safety
 type SerializedDatabase = Record<string, any>;
@@ -42,8 +42,8 @@ export const deSerializeDatabase = (anyData: Record<string, object>): Database =
   Object.entries(anyData).reduce((accum, [key, value]) => {
     return {
       ...accum,
-      [key]: new Map(Object.entries(value))
-    }
+      [key]: new Map(Object.entries(value)),
+    };
   }, getDefaultData());
 
 /** Custom database adapter for top-level table `Map`s */
@@ -55,7 +55,7 @@ class JsonMapAdapter<Database> implements Adapter<Database> {
   }
 
   async read(): Promise<Database | null> {
-    const data = await this.adapter.read()
+    const data = await this.adapter.read();
     if (data === null) return null;
 
     return deSerializeDatabase(JSON.parse(data)) as Database;

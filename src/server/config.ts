@@ -27,7 +27,7 @@ export interface ServerConfig {
     enabled: boolean;
     /** Whether requests are logged (alongside responses) */
     logRequests: boolean;
-  }
+  };
   /**
    * Database persistence file path (JSON).
    *

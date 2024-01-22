@@ -1,16 +1,8 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
-import {
-  generateRandomList,
-  mapToArray,
-  randomBool,
-  randomFromList,
-} from "#common/utilities";
-import {
-  seedAccountIds,
-  seededAccountList,
-} from "#resources/account/account.seed";
+import { generateRandomList, mapToArray, randomBool, randomFromList } from "#common/utilities";
+import { seedAccountIds, seededAccountList } from "#resources/account/account.seed";
 import { QuoteEntity, stubQuote } from "./quote.entity";
 
 export const seedQuoteIds = {
@@ -20,10 +12,10 @@ export const seedQuoteIds = {
 
 const randomAuthors = generateRandomList(
   25,
-  () => `${faker.person.firstName()} ${faker.person.lastName()}`
+  () => `${faker.person.firstName()} ${faker.person.lastName()}`,
 );
 
-const randomTags = generateRandomList(40, () => faker.word.words(1))
+const randomTags = generateRandomList(40, () => faker.word.words(1));
 
 const generateQuote = (): QuoteEntity => {
   const createdAt = faker.date.past({ years: 50 });

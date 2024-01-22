@@ -10,5 +10,5 @@ export interface QuoteResponse extends QuoteEntity {
   account: {
     id: string;
     name: string;
-  }
+  };
 }

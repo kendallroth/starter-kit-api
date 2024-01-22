@@ -34,7 +34,9 @@ export class AccountController extends Controller {
    */
   @Response<UnauthorizedErrorResponse>(UnauthorizedError.status, UnauthorizedError.message)
   @Get("/current")
-  public async getCurrentAccount(@Request() request: AuthenticatedRequest): Promise<AccountResponse> {
+  public async getCurrentAccount(
+    @Request() request: AuthenticatedRequest,
+  ): Promise<AccountResponse> {
     return AccountService.getAccount(request.user.id);
   }
 
